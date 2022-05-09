@@ -1,30 +1,6 @@
 <template>
   <div class="home">
-    
-    <h1 class="animate__animated animate__zoomOutUp animate__bounce" style=" text-align: center;">An animated element</h1>
-    <div class="title">iSecurity Platform</div>
-    <div class="headers">
-      <div class="header_left">iSecurity</div>
-      <div class="header_right">
-        <div
-          v-for="(item, index) in list"
-          :key="index"
-        >
-            <el-dropdown @command="handleCommand"  >
-              <span class="el-dropdown-link" @click.stop="highlight(index)" style="color:#fff" :class="{ active: indexAll == index ? true : false }">
-                {{item.name}}<i v-if="item.content&&item.content.length>0" class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu v-if="item.id!=1"  ref="aaa" style="padding:0;margin:0;background:rgb(13, 37, 71);border:0">
-                  <el-dropdown-item ></el-dropdown-item>
-              </el-dropdown-menu>
-              <el-dropdown-menu slot="dropdown"  v-if="item.id==1">
-                <el-dropdown-item :divided="true" :command="indexs" v-for="(dropdowns,indexs) in item.content" :key="indexs">{{dropdowns.name}}</el-dropdown-item>
-               
-              </el-dropdown-menu>
-            </el-dropdown>
-        </div>
-      </div>
-    </div>
+    <Nav v-model="activeIndex"></Nav>
     <div class="content_baram1">
       <div class="content_title">
         <h1>Information Security Learning and Training</h1>
@@ -269,48 +245,21 @@
 </template>
 
 <script>
+import Nav from '@/components/Nav'
+
 export default {
-  data() {
-    return {
-      indexAll: 0,
-      list: [{id:0,name:'Home'},{id:1,name:'Lessons ',content:[{id:0,name:'Lessons1'},{id:1,name:'Lessons2'},{id:2,name:'Lessons3'}]},{id:2,name:'Resources'},{id:3,name:'Forum'},{id:4,name:'Support'},
-      {id:5,name:'Credit'},{id:6,name:'Login>>'}
-      
-      ],
-    };
+  components: {
+    Nav
   },
-  methods: {
-   dropdowns(a,type){
-     this.$refs.aaa[type].appendArrow(false)
-  
-   },
-
-  handleCommand(command) {
-     switch(command){
-        case 0:
-         this.$router.push('/about')
-          break;
-          case 1:
-        this.$router.push('/enterprise')
-          break;
-          case 2:
-       this.$router.push('/personal')
-          break;
-         
-      }
-      },
-    highlight(type) {
-
-      this.indexAll = type;
-    },
-  },
+  data: () => ({
+    activeIndex: 0
+  })
 };
 </script>
 
 <style scoped lang="scss">
 .home {
   width: 100%;
-
   background: rgba(13, 37, 71, 1);
   .title {
     text-align: center;
@@ -318,33 +267,6 @@ export default {
     font-size: 16px;
     color: #fff;
     font-weight: 700;
-  }
-  .headers {
-    padding: 22.5px 150px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .header_left {
-      color: #fff;
-      font-size: 20px;
-    }
-    .header_right {
-      display: flex;
-      > div {
-        padding: 15px 20px;
-        color: #fff;
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        text-transform: none;
-        font-size: 16px;
-      }
-      > div:hover {
-        color: #00cc99;
-        cursor: pointer;
-      }
-    }
   }
   .content_baram1,
   .content_baram2 {
@@ -368,7 +290,6 @@ export default {
       > div {
         color: #b7bbcb;
         font-size: 20px;
-       
       }
     }
   }
@@ -384,12 +305,8 @@ export default {
   }
 }
 .content_baram3 {
-  padding: 0 150px ;
+  padding: 0 150px;
   background: rgb(8, 26, 50);
-  > .title {
-    font-size: 40px;
-    text-align: center;
-  }
   .Objectives {
     width: 80%;
     display: flex;
@@ -448,9 +365,6 @@ export default {
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
-}
-.active {
-  color: #00cc99 !important;
 }
 .grid-contents {
   background: rgb(26, 32, 44) !important;
@@ -524,7 +438,7 @@ export default {
   height: 30px;
   border-radius: 250px;
   margin-right: 10px;
-  >img{
+  > img {
     margin: 3px 0 0 3px;
   }
 }
@@ -535,13 +449,13 @@ export default {
     align-items: center;
   }
 }
-  .el-popper /deep/ .popper__arrow {
-    border-bottom-color: #1EBEF4 !important;
-    left: 50% !important;
-    visibility: hidden;
-  }
-   /deep/.el-dropdown-menu__item:not(.is-disabled):hover {
-        background-color: #00cc99;
-        color: #fff;
-    }
+.el-popper /deep/ .popper__arrow {
+  border-bottom-color: #1ebef4 !important;
+  left: 50% !important;
+  visibility: hidden;
+}
+/deep/.el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: #00cc99;
+  color: #fff;
+}
 </style>
