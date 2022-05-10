@@ -48,6 +48,16 @@ export default {
   components: {
     Nav,
   },
+  created() {
+    if (!this.userStore.isLogin) {
+      this.$message({
+        showClose: true,
+        message: "Please login first",
+        type: "warning",
+      });
+      this.$router.push("/login");
+    }
+  },
   data: () => ({
     activeIndex: 1,
     userStore: userStore(),

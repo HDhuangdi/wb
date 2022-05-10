@@ -34,9 +34,12 @@
 </template>
 
 <script>
+import { userStore } from '@/store'
+
 export default {
   props: ['value'],
   data: () => ({
+    userStore: userStore(),
     list: [
       { id: 0, name: "Home" },
       {
@@ -44,10 +47,14 @@ export default {
         name: "Learning Analytics",
       },
       { id: 2, name: "Forum" },
-      { id: 3, name: "Contact" },
-      { id: 4, name: "Login>>" },
+      { id: 3, name: "Contact" }
     ],
   }),
+  created() {
+    if (!this.userStore.isLogin) {
+      this.list.push({ id: 4, name: "Login>>" })
+    }
+  },
   methods: {
     dropdowns(a, type) {
       this.$refs.aaa[type].appendArrow(false);

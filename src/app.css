@@ -4,3 +4,6 @@ html, body, #app {
 #app > div {
   min-height: 100%;
 }
+.popper__arrow {
+  display: none !important;
+}

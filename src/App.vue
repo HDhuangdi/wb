@@ -7,6 +7,9 @@
 <script>
 export default {
   components: {},
+  created() {
+    window.__IS_PINIA_INSTALLED__ = true;
+  },
 };
 </script>
 
