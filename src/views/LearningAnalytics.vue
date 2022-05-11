@@ -55,7 +55,7 @@ export default {
         message: "Please login first",
         type: "warning",
       });
-      this.$router.push("/login");
+      this.$router.replace("/login");
     }
   },
   data: () => ({

@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <router-view />
+    <Robot></Robot>
   </div>
 </template>
 
 <script>
+import Robot from '@/components/Robot'
 export default {
-  components: {},
+  components: {Robot},
   created() {
     window.__IS_PINIA_INSTALLED__ = true;
   },
