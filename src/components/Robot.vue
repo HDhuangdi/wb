@@ -19,13 +19,14 @@
             }"
           >
             <div class="record-content">
-              {{ record.content }}
+              <Spinner v-if="record.loading"/>
+              <template v-else>{{record.content}}</template>
             </div>
           </li>
         </ul>
       </div>
       <div class="input-container">
-        <input
+        <textarea
           @keydown.enter="submit"
           v-model="inputVal"
           type="text"
@@ -37,9 +38,13 @@
 </template>
 
 <script>
+import Spinner from './Spinner'
 import fetchAnswer from "./dialogue";
 
 export default {
+  components: {
+    Spinner
+  },
   data: () => ({
     active: false,
     inputVal: "",
@@ -52,14 +57,18 @@ export default {
   }),
   watch: {
     "chartHistory.length": {
-      handler(v) {
+      async handler(v) {
         const lastRecord = this.chartHistory[v - 1];
         if (lastRecord.from === "robot") return;
-        const answer = fetchAnswer(lastRecord.content);
         this.chartHistory.push({
           from: "robot",
-          content: answer,
+          content: '',
+          loading: true
         });
+        const answer = await fetchAnswer(lastRecord.content);
+        this.chartHistory[this.chartHistory.length - 1].content = answer
+        this.chartHistory[this.chartHistory.length - 1].loading = false
+        this.scrollToEnd()
       },
     },
   },
@@ -72,6 +81,10 @@ export default {
         this.active = false;
       }
     },
+    async scrollToEnd() {
+      await this.$nextTick();
+      this.$refs.list.scrollTop = this.$refs.list.scrollHeight + 100;
+    },
     async submit() {
       if (!this.inputVal.trim()) {
         this.inputVal = "";
@@ -82,8 +95,7 @@ export default {
         content: this.inputVal,
       });
       this.inputVal = "";
-      await this.$nextTick();
-      this.$refs.list.scrollTop = this.$refs.list.scrollHeight + 100;
+      this.scrollToEnd()
     },
   },
   beforeDestroy() {
@@ -106,7 +118,7 @@ export default {
     transform: translate(0, 90%);
   }
   &.active {
-    transform: translate(0, 35%);
+    transform: translate(0, 30%);
   }
   .chat-box {
     width: 300px;
@@ -153,23 +165,28 @@ export default {
           border-radius: 7px;
           max-width: 70%;
           font-size: 13px;
-          padding: 5px;
+          padding: 10px;
+          word-wrap: break-word;
+          white-space: normal;
+          word-break: break-all;
         }
       }
     }
     .input-container {
       width: 90%;
       margin-top: 20px;
-      input {
+      textarea {
         box-sizing: border-box;
+        resize:none;
+        font-family: Avenir, Helvetica, Arial, sans-serif;
         width: 100%;
-        height: 30px;
+        height: 60px;
         border-radius: 20px;
         border: 0;
         background-color: #64739c;
         color: #bfcefb;
         outline: none;
-        padding: 0 20px;
+        padding: 10px 20px;
         transition: all 0.5s;
         cursor: pointer;
         &::placeholder {

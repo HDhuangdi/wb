@@ -39,7 +39,12 @@ const dialogues = [
   },
 ];
 
-const fetchAnswer = (query) => {
+const sleep = (time) => new Promise(resolve => {
+  setTimeout(resolve, time);
+})
+
+const fetchAnswer = async (query) => {
+  await sleep(1000)
   let formatedQuery = query.toLocaleLowerCase().replace(/[\s\?\.]/g, "");
   let foundAnswer;
   for (const dialogue of dialogues) {
