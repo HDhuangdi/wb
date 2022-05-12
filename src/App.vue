@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <Robot></Robot>
+    <Robot v-show="robotVisible"></Robot>
   </div>
 </template>
 
@@ -9,9 +9,19 @@
 import Robot from '@/components/Robot'
 export default {
   components: {Robot},
+  data: () => ({
+    robotVisible: false
+  }),
   created() {
     window.__IS_PINIA_INSTALLED__ = true;
   },
+  watch: {
+    "$route": function(val) {
+      if(val.name === 'Earth'){
+        this.robotVisible = false
+      }
+    }
+  }
 };
 </script>
 

@@ -44,10 +44,14 @@ export default {
       { id: 0, name: "Home" },
       {
         id: 1,
-        name: "Learning Analytics",
+        name: "Lessons",
       },
-      { id: 2, name: "Forum" },
-      { id: 3, name: "Contact" }
+      {
+        id: 3,
+        name: "Activity",
+      },
+      { id: 4, name: "Forum" },
+      { id: 5, name: "Contact" }
     ],
   }),
   created() {
@@ -64,8 +68,11 @@ export default {
         case "Home":
           this.$router.push("/");
           break;
-        case "Learning Analytics":
+        case "Lessons":
           this.$router.push("/learning-analytics");
+          break;
+        case "Activity":
+          this.$router.push("/activity");
           break;
         case "Forum":
           this.$router.push("/forum");

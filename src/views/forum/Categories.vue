@@ -15,7 +15,7 @@
       <button>Create New Post</button>
     </div>
     <div class="list">
-      <div class="row">
+      <div class="row" @click="$router.push('/forum/welcome')">
         <div class="left">
           <h3>Welcoming Post</h3>
           <p>Here you can learn about the functions of the forum.</p>
@@ -143,6 +143,7 @@ export default {};
     width: 1100px;
     padding: 0 10px;
     .row {
+      cursor: pointer;
       border: 1px solid #69718b;
       width: 100%;
       padding: 20px;

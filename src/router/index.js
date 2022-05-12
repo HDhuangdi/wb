@@ -8,7 +8,13 @@ const routes = [
     path: "/",
     name: "Home",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+      import(/* webpackChunkName: "Home" */ "../views/Home.vue"),
+  },
+  {
+    path: "/earth",
+    name: "Earth",
+    component: () =>
+      import(/* webpackChunkName: "Earth" */ "../views/earth/index.vue"),
   },
   {
     path: "/learning-analytics",
@@ -16,6 +22,14 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "LearningAnalytics" */ "../views/LearningAnalytics.vue"
+      ),
+  },
+  {
+    path: "/activity",
+    name: "Activity",
+    component: () =>
+      import(
+        /* webpackChunkName: "Activity" */ "../views/Activity.vue"
       ),
   },
   {
@@ -35,6 +49,24 @@ const routes = [
         name: "Welcome",
         component: () =>
           import(/* webpackChunkName: "Welcome" */ "../views/forum/Welcome"),
+      },
+      {
+        path: "rules",
+        name: "Rules",
+        component: () =>
+          import(/* webpackChunkName: "Rules" */ "../views/forum/Rules"),
+      },
+      {
+        path: "self",
+        name: "Self",
+        component: () =>
+          import(/* webpackChunkName: "Self" */ "../views/forum/Self"),
+      },
+      {
+        path: "qa",
+        name: "QA",
+        component: () =>
+          import(/* webpackChunkName: "QA" */ "../views/forum/QA"),
       },
     ],
   },

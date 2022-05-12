@@ -11,19 +11,34 @@
             <div class="avatar">L</div>
             <p>Liming LM</p>
           </div>
-          <div class="header-right">
-            Jun 02,2021 · Edited: Jun 02,2021
-          </div>
+          <div class="header-right">Jun 02,2021 · Edited: Jun 02,2021</div>
         </div>
         <h1 class="post-title">Welcome to the Welcoming Post!</h1>
         <p class="in">in welcome post</p>
         <div class="post-content">
           <p>Dear learners:</p>
           <p>Hi!</p>
-          <p>Welcome to the discussion forum, the course forum for the development and design of the “iSecurity e-Learning Platform”.</p>
-          <p>This forum can provide you with a space to share your learning process. During the course study, you can share your learning process and interesting ideas with other students in the forum.</p>
-          <p>The forum will provide a channel for solving common problems. While you are engaging and exploring the course activities, you might face some problems regarding information security. Here you can post your questions and get help from other learners. At the same time, you can also answer questions posted by other learners.</p>
-          <p>In addition, the forum will regularly share some articles about information security, and you can welcome to participate in learning and make constructive comments!</p>
+          <p>
+            Welcome to the discussion forum, the course forum for the
+            development and design of the “iSecurity e-Learning Platform”.
+          </p>
+          <p>
+            This forum can provide you with a space to share your learning
+            process. During the course study, you can share your learning
+            process and interesting ideas with other students in the forum.
+          </p>
+          <p>
+            The forum will provide a channel for solving common problems. While
+            you are engaging and exploring the course activities, you might face
+            some problems regarding information security. Here you can post your
+            questions and get help from other learners. At the same time, you
+            can also answer questions posted by other learners.
+          </p>
+          <p>
+            In addition, the forum will regularly share some articles about
+            information security, and you can welcome to participate in learning
+            and make constructive comments!
+          </p>
           <p>Let’s join the course together!</p>
           <p>The Design and Development Team</p>
           <p>The University of Hong Kong</p>
@@ -32,19 +47,34 @@
           <p>9 views</p>
           <p>0 comments</p>
         </div>
-        <div class="footer" :class="{padding: !commentAreaVisible}">
+        <div class="footer" :class="{ padding: !commentAreaVisible }">
           <div class="footer-left">
-            <p @click="commentAreaVisible = !commentAreaVisible"><i class="el-icon-chat-square"></i> Comment</p>
-            <p><i style="color: #FFD714" class="el-icon-star-off"></i> 0</p>
+            <p @click="commentAreaVisible = !commentAreaVisible">
+              <i class="el-icon-chat-square"></i> Comment
+            </p>
+            <p><i style="color: #ffd714" class="el-icon-star-off"></i> 0</p>
           </div>
           <div class="footer-right">
             <i class="el-icon-share"></i>
             <span>Share</span>
           </div>
         </div>
+        <h4>Comments</h4>
+        <ul class="comment-list">
+          <template v-if="commentList.length">
+            <li v-for="(c, index) of commentList" :key="index">
+              <p>{{ c.content }}</p>
+              <p>{{ c.time }}</p>
+            </li>
+          </template>
+          <li v-else>no comments</li>
+        </ul>
         <div class="comment-area" v-show="commentAreaVisible">
-          <textarea placeholder="Write a comment..." v-model="comment"></textarea>
-          <button class="publish">Publish</button>
+          <textarea
+            placeholder="Write a comment..."
+            v-model="comment"
+          ></textarea>
+          <button class="publish" @click="publish">Publish</button>
         </div>
       </div>
       <div class="detail-right">
@@ -62,8 +92,9 @@
         </div>
         <div class="similar-posts">
           <h3>Similar Posts</h3>
-          <p>asd</p>
-          <p>dasdas</p>
+          <p @click="$router.push('/forum/rules')">Welcome to the Rules & Regulations!</p>
+          <p @click="$router.push('/forum/self')">Welcome to the Self-Introduction!</p>
+          <p @click="$router.push('/forum/qa')">Welcome to the Questions & Answers!</p>
         </div>
       </div>
     </div>
@@ -71,11 +102,23 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   data: () => ({
     commentAreaVisible: true,
-    comment: ''
-  })
+    commentList: [],
+    comment: "",
+  }),
+  methods: {
+    publish() {
+      this.commentList.push({
+        content: this.comment,
+        time: moment(new Date()).format("yyyy-MM-DD HH:mm:ss"),
+      });
+      this.comment = "";
+    },
+  },
 };
 </script>
 
@@ -159,7 +202,8 @@ export default {
         &.padding {
           margin-bottom: 100px;
         }
-        .footer-left, .footer-right {
+        .footer-left,
+        .footer-right {
           display: flex;
           align-items: center;
           p {
@@ -174,6 +218,27 @@ export default {
             display: inline-block;
             margin-left: 10px;
           }
+        }
+      }
+      h4 {
+        margin-top: 50px;
+      }
+      .comment-list {
+        margin-top: 10px;
+        list-style: none;
+        border: 1px solid #d5dcf3;
+        border-radius: 10px;
+        padding: 10px 0;
+        li {
+          padding: 20px;
+          p:last-child {
+            float: right;
+            font-size: 13px;
+            color: #69718b;
+          }
+        }
+        li:not(:last-child) {
+          border-bottom: 1px solid #d5dcf3;
         }
       }
       .comment-area {
@@ -245,6 +310,12 @@ export default {
           i {
             margin-right: 10px;
           }
+        }
+      }
+      .similar-posts {
+        p {
+          margin: 10px 0;
+          cursor: pointer;
         }
       }
     }
