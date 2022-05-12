@@ -47,11 +47,11 @@ export default {
         name: "Lessons",
       },
       {
-        id: 3,
+        id: 2,
         name: "Activity",
       },
-      { id: 4, name: "Forum" },
-      { id: 5, name: "Contact" }
+      { id: 3, name: "Forum" },
+      { id: 4, name: "Contact" }
     ],
   }),
   created() {

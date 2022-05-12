@@ -17,9 +17,7 @@ export default {
   },
   watch: {
     "$route": function(val) {
-      if(val.name === 'Earth'){
-        this.robotVisible = false
-      }
+      this.robotVisible = val.name !== 'Earth'
     }
   }
 };

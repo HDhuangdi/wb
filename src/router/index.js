@@ -29,7 +29,7 @@ const routes = [
     name: "Activity",
     component: () =>
       import(
-        /* webpackChunkName: "Activity" */ "../views/Activity.vue"
+        /* webpackChunkName: "Activity" */ "../views/activity/index.vue"
       ),
   },
   {

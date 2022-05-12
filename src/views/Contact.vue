@@ -50,7 +50,7 @@ export default {
     Nav,
   },
   data: () => ({
-    activeIndex: 3,
+    activeIndex: 4,
     form: {
       firstName: "",
       lastName: "",

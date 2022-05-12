@@ -1,4 +1,5 @@
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import * as THREE from "three";
 
 export function loadImg(src) {
@@ -10,6 +11,15 @@ export function loadImg(src) {
     };
   });
 }
+
+export function loadFont() {
+  return new Promise((resolve) => {
+    new FontLoader().load('/droid_sans_mono_regular.typeface.json', result => {
+      resolve(result)
+    })
+  });
+}
+
 
 export function loadObj(src) {
   return new Promise((resolve) => {

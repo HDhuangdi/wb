@@ -1,11 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import {
-  CSS3DObject,
-  CSS3DRenderer,
-} from "three/examples/jsm/renderers/CSS3DRenderer";
+import { TextGeometry } from "three//examples/jsm/geometries/TextGeometry";
 import countries from "@/assets/js/countries";
-import { loadImg, loadObj, getRandomNum } from "./helpers";
+import { loadImg, loadFont, loadObj, getRandomNum } from "./helpers";
 
 let SCENE_WIDTH = window.innerWidth;
 let SCENE_HEIGHT = window.innerHeight;
@@ -25,20 +22,25 @@ export default class Render {
     this.initCamera();
     this.initLight();
     this.initRenderer();
+    this.initEvent()
     this.initObject().then(() => {
-      this.initDevHelpers();
+      // this.initDevHelpers(); 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
       this.controls.enablePan = false;
       this.controls.enableZoom = false;
       this.controls.maxDistance = 400;
       this.controls.minDistance = 400;
-      this.controls.minPolarAngle = Math.PI / 2 - Math.PI / 10
-      this.controls.maxPolarAngle = Math.PI / 2 - Math.PI / 10
+      this.controls.minPolarAngle = Math.PI / 2 - Math.PI / 10;
+      this.controls.maxPolarAngle = Math.PI / 2 - Math.PI / 10;
       this.earth.position.copy(this.center);
       this.scene.add(this.earth);
       this.render();
     });
+  }
+
+  initEvent() {
+
   }
 
   initScene() {
@@ -53,16 +55,9 @@ export default class Render {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0x000000, 1);
     this.renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);
-    this.cssRenderer = new CSS3DRenderer()
-    this.cssRenderer.setSize(SCENE_WIDTH, SCENE_HEIGHT)
-    this.cssRenderer.domElement.style.position = 'absolute'
-    this.cssRenderer.domElement.style.top = '0'
-    this.cssRenderer.domElement.style.zIndex = '1'
-    const container =  document
-    .getElementById("webgl-container")
-   
+    const container = document.getElementById("webgl-container");
+
     container.appendChild(this.renderer.domElement);
-    container.appendChild(this.cssRenderer.domElement);
   }
 
   initCamera() {
@@ -72,20 +67,19 @@ export default class Render {
       0.1,
       10000
     );
-    this.camera.position.set(0, 0, 500);
+    this.camera.position.set(300, 0, 100);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.scene.add(this.camera);
   }
 
   initLight() {
     this.light = new THREE.PointLight(0xffffff, 0.8); // white light
-    this.light.position.set(100, 100, 100);
+    this.light.position.set(200, 200, 0);
     this.scene.add(this.light);
   }
 
   render() {
     this.renderer.render(this.scene, this.camera);
-    this.cssRenderer.render(this.scene,this.camera)
 
     const mat1 = new THREE.Matrix4();
     mat1.makeRotationX(Math.PI / 3000);
@@ -97,6 +91,7 @@ export default class Render {
 
     this.earth.rotateY(Math.PI / 3000);
     this.dust.rotateY(-Math.PI / 3000);
+    this.earthFloatText.rotateY(Math.PI / 2000);
 
     this.controls.update();
     this.satelliteMove();
@@ -130,8 +125,13 @@ export default class Render {
     );
   }
 
+  async loadFont() {
+    const font = await loadFont();
+    this.font = font;
+  }
+
   async initObject() {
-    await this.loadImgs();
+    await Promise.all([this.loadImgs(), this.loadFont()]);
     // 绘制城市打点
     this.drawCountries();
     // 大陆点
@@ -140,35 +140,82 @@ export default class Render {
     this.drawClouds();
     // 轨道
     this.satellitePathPoints = this.drawTrack(
-      this.RADIUS * 1.8,
+      this.RADIUS * 3,
       "rotateX",
       0,
       "track1"
     );
-    this.drawTrack(this.RADIUS * 1.8, "rotateX", Math.PI / 2, "track2");
+    this.drawTrack(this.RADIUS * 3, "rotateX", Math.PI / 2, "track2");
     // 卫星
     this.drawSatellite();
     // 尘埃
     this.drawDust();
-    // 环绕文字
-    this.initText()
+    // 地球文字
+    this.earthText = new THREE.Group();
+    this.initText('Welcome to the iSecurity e-Learning Platform!', 12, 260, 15);
+    this.initText('The University of Hong Kong', 12, 160, 5);
+    this.initText('Faculty of Education', 12, 100, -5);
+    this.initText('Zian Lu', 12, 40, -15);
+    // 环绕
+    this.earthFloatText = new THREE.Group();
+    this.floatText('Security Need, Personal Security, Enterprise Security.Security Need, Personal Security, Enterprise Security', 12, 360, 15);
+    this.earthFloatText.rotateX(Math.PI / 4)
   }
 
-  initText() {
-    this.createTextObject('测试文字', [0, 0, this.RADIUS])
+  initText(text, size, all, lat) {
+    let len = text.length;
+    if (len % 2) {
+      len += 1;
+    }
+    const step = all / len;
+    let index = 0;
+    for (const char of text) {
+      if (char === "") {
+        index++;
+        continue;
+      }
+      var g = new TextGeometry(char, {
+        font: this.font,
+        size: size,
+        height: 2,
+      });
+      var m = new THREE.MeshPhongMaterial({ color: 0x009F9E });
+      var mesh = new THREE.Mesh(g, m);
+      mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat]));
+      mesh.lookAt(this.center)
+      mesh.rotateY(Math.PI)
+      this.earthText.add(mesh);
+      index++;
+    }
+    this.earth.add(this.earthText)
   }
 
-  createTextObject(content, position) {
-    const el = document.createElement('div')
-    el.innerHTML = content
-    el.style.fontSize = '30px'
-    el.style.color = '#fff'
-    const textObj = new CSS3DObject(el)
-    textObj.position.set(...position)
-    textObj.lookAt(this.center)
-    textObj.rotateY(Math.PI)
-    this.scene.add(textObj)
-    return textObj
+  floatText(text, size, all, lat) {
+    let len = text.length;
+    if (len % 2) {
+      len += 1;
+    }
+    const step = all / len;
+    let index = 0;
+    for (const char of text) {
+      if (char === "") {
+        index++;
+        continue;
+      }
+      var g = new TextGeometry(char, {
+        font: this.font,
+        size: size,
+        height: 2,
+      });
+      var m = new THREE.MeshBasicMaterial({ color: 0x03D98E });
+      var mesh = new THREE.Mesh(g, m);
+      mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat], 150));
+      mesh.lookAt(this.center)
+      mesh.rotateY(Math.PI)
+      this.earthFloatText.add(mesh);
+      index++;
+    }
+    this.scene.add(this.earthFloatText)
   }
 
   // 国家打点
@@ -208,7 +255,6 @@ export default class Render {
       this.countriesGroup.add(countryGroup);
       this.countriesGroup.add(beamGroup);
     });
-    // this.countriesGroup.lookAt(this.center)
     this.countriesGroup.add(this.center);
     this.earth.add(this.countriesGroup);
   }
@@ -344,8 +390,8 @@ export default class Render {
     const trackMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color(0x03d98e),
       transparent: true,
-      opacity: 0.6,
-      linewidth: 4,
+      opacity: 0.3,
+      linewidth: 1,
     });
 
     this[variable] = new THREE.Line(trackGeo, trackMaterial);
@@ -390,12 +436,12 @@ export default class Render {
 
   // 尘埃
   drawDust() {
-    const DUST_RADIUS = this.RADIUS * 2;
+    const DUST_RADIUS = this.RADIUS * 3;
     this.dust = new THREE.Group();
-    for (let index = 0; index < 300; index++) {
+    for (let index = 0; index < 1000; index++) {
       const geo = new THREE.BoxGeometry(1, 1, 1);
       const material = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(0x03d98e),
+        color: new THREE.Color(0x009F9E),
         side: THREE.DoubleSide,
         depthTest: false,
         transparent: true,
@@ -420,13 +466,14 @@ export default class Render {
   }
 
   // 经纬度 => 三维向量
-  lnglat2Vector3(lnglat) {
+  lnglat2Vector3(lnglat, radius) {
+    if (!radius) radius = this.RADIUS
     const lng = lnglat[0];
     const lat = lnglat[1];
 
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lng + 90) * (Math.PI / 180);
-    const spherical = new THREE.Spherical(this.RADIUS, phi, theta);
+    const spherical = new THREE.Spherical(radius, phi, theta);
     const vec = new THREE.Vector3();
     vec.setFromSpherical(spherical);
     return vec;
