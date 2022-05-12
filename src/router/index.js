@@ -30,6 +30,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "Categories" */ "../views/forum/Categories"),
       },
+      {
+        path: "welcome",
+        name: "Welcome",
+        component: () =>
+          import(/* webpackChunkName: "Welcome" */ "../views/forum/Welcome"),
+      },
     ],
   },
   {

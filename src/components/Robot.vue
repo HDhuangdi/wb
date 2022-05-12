@@ -107,6 +107,7 @@ export default {
 <style lang="less" scoped>
 .robot {
   position: fixed;
+  z-index: 10;
   bottom: 0;
   right: 13px;
   display: flex;

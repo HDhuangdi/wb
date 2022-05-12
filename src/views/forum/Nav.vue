@@ -5,7 +5,7 @@
     </div>
     <div class="right">
       <el-input
-        placeholder="请输入内容"
+        placeholder="Search"
         prefix-icon="el-icon-search"
         v-model="search"
       >
