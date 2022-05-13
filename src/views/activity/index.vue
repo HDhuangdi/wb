@@ -1,7 +1,18 @@
 <template>
   <div class="activity">
     <Nav v-model="activeIndex"></Nav>
-    <div class="game">
+    <div class="select" v-if="activeGame === null">
+      <el-select v-model="activeGame" placeholder="请选择">
+        <el-option
+          v-for="item in gameList"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </div>
+    <div class="game" v-else>
       <img class="bg" :src="current.background" alt="" />
       <div
         class="dialog-box"
@@ -44,6 +55,8 @@
 import Nav from "@/components/Nav";
 import { userStore } from "@/store";
 import { game1Info, calcGame1Score } from "./game1";
+import { game2Info, calcGame2Score } from "./game2";
+import { game3Info, calcGame3Score } from "./game3";
 
 export default {
   components: {
@@ -52,7 +65,21 @@ export default {
   data: () => ({
     activeIndex: 2,
     userStore: userStore(),
-    activeGame: 1,
+    activeGame: null,
+    gameList: [
+      {
+        id: 1,
+        name: "Be cautious when working in the office",
+      },
+      {
+        id: 2,
+        name: "Using Public Wi-Fi Securely",
+      },
+      {
+        id: 3,
+        name: "Avoiding Password Peril",
+      },
+    ],
     form: {
       name: "",
       game1Q1: "",
@@ -63,6 +90,21 @@ export default {
       game1Q6: "",
       game1Q7: "",
       game1Score: "",
+      game2Q1: "",
+      game2Q2: "",
+      game2Q3: "",
+      game2Q4: "",
+      game2Q5: "",
+      game2Q6: "",
+      game2Q7: "",
+      game2Q8: "",
+      game2Q9: "",
+      game2Score: "",
+      game3Q1: "",
+      game3Q2: "",
+      game3Q3: "",
+      game3Q4: "",
+      game3Score: "",
     },
     activeGameContentIndex: 0,
   }),
@@ -71,6 +113,10 @@ export default {
       switch (this.activeGame) {
         case 1:
           return calcGame1Score;
+        case 2:
+          return calcGame2Score;
+        case 3:
+          return calcGame3Score;
         default:
           break;
       }
@@ -79,6 +125,10 @@ export default {
       switch (this.activeGame) {
         case 1:
           return game1Info;
+        case 2:
+          return game2Info;
+        case 3:
+          return game3Info;
         default:
           break;
       }
@@ -124,7 +174,8 @@ export default {
         }
       }
       const count = this.calcGameScore(obj);
-      this.form.game1Score = count;
+      this.form[`game${this.activeGame}Score`] = count;
+      this.userStore[`lesson${this.activeGame}`] = count;
     },
     getContent(html) {
       const res = html.match(/{{(\w+)}}/);

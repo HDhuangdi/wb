@@ -92,9 +92,7 @@ export default {
         },
         axisLabel: { color: "#fff" },
         splitLine: { lineStyle: { color: "rgba(102, 102, 102, 0.4)" } },
-        min: function (value) {
-          return value.min - 20;
-        },
+        min: "dataMin",
         max: "dataMax",
       },
       series: this.tableData.map((item, index) => ({
