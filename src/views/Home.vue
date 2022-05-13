@@ -257,7 +257,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .home {
   width: 100%;
   background: rgba(13, 37, 71, 1);

@@ -1,4 +1,4 @@
-# dome
+# demo2
 
 ## Project setup
 ```
