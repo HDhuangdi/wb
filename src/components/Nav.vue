@@ -66,7 +66,7 @@ export default {
     clickHandler(index, item) {
       switch (item.name) {
         case "Home":
-          this.$router.push("/");
+          this.$router.push("/home");
           break;
         case "Lessons":
           this.$router.push("/learning-analytics");

@@ -44,7 +44,7 @@ const sleep = (time) => new Promise(resolve => {
 })
 
 const fetchAnswer = async (query) => {
-  await sleep(1000)
+  await sleep(300)
   let formatedQuery = query.toLocaleLowerCase().replace(/[\s\?\.]/g, "");
   let foundAnswer;
   for (const dialogue of dialogues) {

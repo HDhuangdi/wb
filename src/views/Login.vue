@@ -42,7 +42,7 @@ export default {
         message: "Login successfully",
         type: "success",
       });
-      this.$router.push('/')
+      this.$router.push('/home')
     },
   },
 };
