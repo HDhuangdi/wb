@@ -17,14 +17,15 @@ export default class Render {
     this.earth = new THREE.Group();
     this.satelliteAnimationDuration = 20; // s
     this.satellitePathIndex = 0;
+    this.raycaster = new THREE.Raycaster();
 
     this.initScene();
     this.initCamera();
     this.initLight();
     this.initRenderer();
-    this.initEvent()
+    this.initEvent();
     this.initObject().then(() => {
-      // this.initDevHelpers(); 
+      // this.initDevHelpers();
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
       this.controls.enablePan = false;
@@ -40,7 +41,24 @@ export default class Render {
   }
 
   initEvent() {
+    const container = document.getElementById("webgl-container");
+    container.addEventListener("click", this.eventHandler.bind(this));
+  }
 
+  eventHandler(e) {
+    const { clientX, clientY } = e;
+    let x = (clientX / SCENE_WIDTH) * 2 - 1;
+    let y = -(clientY / SCENE_HEIGHT) * 2 + 1;
+    this.raycaster.setFromCamera({ x, y }, this.camera);
+    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+    if (intersects.length) {
+      const found = intersects.find(
+        (evt) => evt.object.name === "earthFloatText"
+      );
+      if (found) {
+        window.location = "/#/home";
+      }
+    }
   }
 
   initScene() {
@@ -140,26 +158,31 @@ export default class Render {
     this.drawClouds();
     // 轨道
     this.satellitePathPoints = this.drawTrack(
-      this.RADIUS * 3,
+      this.RADIUS * 2.5,
       "rotateX",
       0,
       "track1"
     );
-    this.drawTrack(this.RADIUS * 3, "rotateX", Math.PI / 2, "track2");
+    this.drawTrack(this.RADIUS * 2.5, "rotateX", Math.PI / 2, "track2");
     // 卫星
     this.drawSatellite();
     // 尘埃
     this.drawDust();
     // 地球文字
     this.earthText = new THREE.Group();
-    this.initText('Welcome to the iSecurity e-Learning Platform!', 12, 260, 15);
-    this.initText('The University of Hong Kong', 12, 160, 5);
-    this.initText('Faculty of Education', 12, 100, -5);
-    this.initText('Zian Lu', 12, 40, -15);
+    this.initText("Welcome to the iSecurity e-Learning Platform!", 12, 260, 15);
+    this.initText("The University of Hong Kong", 12, 160, 5);
+    this.initText("Faculty of Education", 12, 100, -5);
+    this.initText("Zian Lu", 12, 40, -15);
     // 环绕
     this.earthFloatText = new THREE.Group();
-    this.floatText('Security Need, Personal Security, Enterprise Security.Security Need, Personal Security, Enterprise Security', 12, 360, 15);
-    this.earthFloatText.rotateX(Math.PI / 4)
+    this.floatText(
+      "Security Need, Personal Security, Enterprise Security.Security Need, Personal Security, Enterprise Security",
+      12,
+      360,
+      15
+    );
+    this.earthFloatText.rotateX(Math.PI / 4);
   }
 
   initText(text, size, all, lat) {
@@ -179,15 +202,15 @@ export default class Render {
         size: size,
         height: 2,
       });
-      var m = new THREE.MeshPhongMaterial({ color: 0x009F9E });
+      var m = new THREE.MeshPhongMaterial({ color: 0x009f9e });
       var mesh = new THREE.Mesh(g, m);
       mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat]));
-      mesh.lookAt(this.center)
-      mesh.rotateY(Math.PI)
+      mesh.lookAt(this.center);
+      mesh.rotateY(Math.PI);
       this.earthText.add(mesh);
       index++;
     }
-    this.earth.add(this.earthText)
+    this.earth.add(this.earthText);
   }
 
   floatText(text, size, all, lat) {
@@ -207,15 +230,18 @@ export default class Render {
         size: size,
         height: 2,
       });
-      var m = new THREE.MeshBasicMaterial({ color: 0x03D98E });
+      var m = new THREE.MeshBasicMaterial({ color: 0x03d98e });
       var mesh = new THREE.Mesh(g, m);
-      mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat], 150));
-      mesh.lookAt(this.center)
-      mesh.rotateY(Math.PI)
+      mesh.position.copy(
+        this.lnglat2Vector3([-all / 2 + index * step, lat], 150)
+      );
+      mesh.lookAt(this.center);
+      mesh.rotateY(Math.PI);
+      mesh.name = "earthFloatText";
       this.earthFloatText.add(mesh);
       index++;
     }
-    this.scene.add(this.earthFloatText)
+    this.scene.add(this.earthFloatText);
   }
 
   // 国家打点
@@ -438,10 +464,10 @@ export default class Render {
   drawDust() {
     const DUST_RADIUS = this.RADIUS * 3;
     this.dust = new THREE.Group();
-    for (let index = 0; index < 1000; index++) {
+    for (let index = 0; index < 300; index++) {
       const geo = new THREE.BoxGeometry(1, 1, 1);
       const material = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(0x009F9E),
+        color: new THREE.Color(0x009f9e),
         side: THREE.DoubleSide,
         depthTest: false,
         transparent: true,
@@ -467,7 +493,7 @@ export default class Render {
 
   // 经纬度 => 三维向量
   lnglat2Vector3(lnglat, radius) {
-    if (!radius) radius = this.RADIUS
+    if (!radius) radius = this.RADIUS;
     const lng = lnglat[0];
     const lat = lnglat[1];
 

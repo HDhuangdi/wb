@@ -25,10 +25,10 @@
           <div><i class="el-icon-chat-square"></i>7</div>
         </div>
         <div class="right">
-          <div @click="$router.push('/forum/welcome')">Follow</div>
+          <div>Follow</div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" @click="$router.push('/forum/rules')">
         <div class="left">
           <h3>Rules & Regulations</h3>
           <p>Here you can learn about the rules and regulations of the forum</p>
@@ -41,7 +41,7 @@
           <div>Follow</div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" @click="$router.push('/forum/self')">
         <div class="left">
           <h3>Self-Introduction</h3>
           <p>Here you can introduce yourselves to others fellow learners.</p>
@@ -54,7 +54,7 @@
           <div>Follow</div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" @click="$router.push('/forum/qa')">
         <div class="left">
           <h3>Questions & Answers</h3>
           <p>

@@ -2,7 +2,7 @@
   <div class="activity">
     <Nav v-model="activeIndex"></Nav>
     <div class="select" v-if="activeGame === null">
-      <el-select v-model="activeGame" placeholder="请选择">
+      <el-select v-model="activeGame" placeholder="choose your lesson">
         <el-option
           v-for="item in gameList"
           :key="item.id"
@@ -69,15 +69,15 @@ export default {
     gameList: [
       {
         id: 1,
-        name: "Be cautious when working in the office",
+        name: "Lesson 1: Be cautious when working in the office",
       },
       {
         id: 2,
-        name: "Using Public Wi-Fi Securely",
+        name: "Lesson 2: Using Public Wi-Fi Securely",
       },
       {
         id: 3,
-        name: "Avoiding Password Peril",
+        name: "Lesson 3: Avoiding Password Peril",
       },
     ],
     form: {
@@ -192,6 +192,27 @@ export default {
 <style lang="less" scoped>
 .activity {
   background: rgba(13, 37, 71, 1);
+  .select {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    & /deep/ input {
+      box-sizing: border-box;
+      resize: none;
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      width: 500px;
+      height: 60px;
+      border-radius: 5px;
+      border: 0;
+      background-color: #64739c;
+      color: #bfcefb;
+      outline: none;
+      padding: 10px 20px;
+      transition: all 0.5s;
+      cursor: pointer;
+    }
+  }
   .game {
     width: 1000px;
     height: 500px;
