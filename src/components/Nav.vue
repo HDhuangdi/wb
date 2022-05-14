@@ -128,6 +128,7 @@ export default {
         case "Login>>":
           this.$router.push("/login");
         case "Logout":
+          this.userStore.isLogin = false
           localStorage.iSecurityUsername = "";
           location.reload();
           break;
