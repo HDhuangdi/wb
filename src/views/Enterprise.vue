@@ -3,18 +3,26 @@
     <swiper :options="swiperOption2" ref="myswiper" class="title">
       <swiper-slide v-for="(item, index) in videoList" :key="index">
         <div
-            @click="add"
+          @click="add"
           v-if="item.type == 1"
-         id="btn"
+          id="btn"
           :style="`background: center/cover url(${item.img}) no-repeat;width:100%;height: 100%`"
         >
-          <div class="text" style="width: 60%;margin:auto;text-align: center;margin-top:200px">
-            <h1 style="  color: #724eb0">{{ item.title }}</h1>
-         
-            <span  id="mistake" ref="mistake"></span>
-                <span  id="box" ref="box" >
-                 <span > {{ item.content }}</span> 
-                  </span>
+          <div
+            class="text"
+            style="
+              width: 60%;
+              margin: auto;
+              text-align: center;
+              margin-top: 200px;
+            "
+          >
+            <h1 style="color: #724eb0">{{ item.title }}</h1>
+
+            <span id="mistake" ref="mistake"></span>
+            <span id="box" ref="box">
+              <span> {{ item.content }}</span>
+            </span>
           </div>
         </div>
         <div v-else-if="item.type == 2">
@@ -33,8 +41,8 @@
               :src="item.img"
               ref="video"
             ></video>
-             <span  id="mistake" ref="mistake"></span>
-                <span  id="box" ref="box"></span>
+            <span id="mistake" ref="mistake"></span>
+            <span id="box" ref="box"></span>
           </div>
         </div>
         <div
@@ -43,7 +51,9 @@
           :style="`background: center/cover url(${item.img}) no-repeat;width:100%;height: 100%`"
         >
           <div class="maskLayer">
-            <div class="question" style="width:70%;text-align: center;">{{ item.title }}</div>
+            <div class="question" style="width: 70%; text-align: center">
+              {{ item.title }}
+            </div>
 
             <div
               class="answer"
@@ -72,12 +82,13 @@
                 >{{ items }}</el-button
               >
             </div>
-          <span  id="box" ref="box"></span>
-                <span  id="mistake" style="display:none" ref="mistake">{{item.mistake}}</span>
+            <span id="box" ref="box"></span>
+            <span id="mistake" style="display: none" ref="mistake">{{
+              item.mistake
+            }}</span>
           </div>
         </div>
-     
-      
+
         <div class="rights">{{ index + 1 }}/{{ videoList.length }}</div>
       </swiper-slide>
     </swiper>
@@ -104,17 +115,20 @@
 //导入swiper
 import "vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import { userStore } from "@/store";
 import Drag from "./Drag.vue";
+
 export default {
   name: "default",
   data() {
     const that = this;
     return {
-      mistakes:false,
-       boxshow:false,
-      readonly:false,
-        textarea: '',
-        contents:false,
+      userStore: userStore(),
+      mistakes: false,
+      boxshow: false,
+      readonly: false,
+      textarea: "",
+      contents: false,
       up: true,
       down: true,
       indexAll: 0,
@@ -155,7 +169,7 @@ Wi-Fi networks.`,
           type: 2,
           img: require("../../src/assets/Video/3-1-Video1.mp4"),
         },
-         {
+        {
           id: 4,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
@@ -168,16 +182,13 @@ turn on your Wi-Fi when your device is not in use.`,
           id: 5,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
-          title: "It is always secure to connect to free public Wi-Fi networks.",
+          title:
+            "It is always secure to connect to free public Wi-Fi networks.",
           correct: "No",
-        //   mistake:'Billy made the mistake that he should not share the video with his friends.',
-          content: [
-            "Yes",
-            "No",
-           
-          ],
+          //   mistake:'Billy made the mistake that he should not share the video with his friends.',
+          content: ["Yes", "No"],
         },
-          {
+        {
           id: 6,
           type: 2,
           img: require("../../src/assets/Video/3-1-Video2.mp4"),
@@ -191,8 +202,6 @@ turn on your Wi-Fi when your device is not in use.`,
 network before connecting to any free Wi-Fi in public. There are always risks of connecting to 
 free public Wi-Fi networks.`,
         },
-       
-        
 
         {
           id: 7,
@@ -207,7 +216,7 @@ free public Wi-Fi networks.`,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
           title: `Activity #1: Learn how to connect to VPN`,
-           content: `Let’s practice on how to connect to VPN and how it works. 
+          content: `Let’s practice on how to connect to VPN and how it works. 
 Let’s get started`,
         },
         {
@@ -226,8 +235,8 @@ Let’s get started`,
           content: `Connect to VPN<br/> Open your VPN service and establish your connection. Now, the VPN server will become the
 middleman between your device and the internet.`,
         },
-     
-          {
+
+        {
           id: 11,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
@@ -235,12 +244,12 @@ middleman between your device and the internet.`,
           content: `Once connected to a VPN, your communications are now private and encrypted. Your sensitive 
 information is unable to be viewed by hackers snooping your Wi-Fi connection.`,
         },
-         {
+        {
           id: 12,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `What does VPN stand for?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Virtual Private Network",
           content: [
             "Virtual Private Network",
@@ -249,7 +258,7 @@ information is unable to be viewed by hackers snooping your Wi-Fi connection.`,
             "Virus Protection Network",
           ],
         },
-         {
+        {
           id: 13,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
@@ -257,46 +266,37 @@ information is unable to be viewed by hackers snooping your Wi-Fi connection.`,
           content: `You should always turn the Wi-Fi connection off when not using the device. There is always 
 risks of having personal device automatically connecting to unknown Wi-Fi networks`,
         },
-         {
+        {
           id: 14,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `What is the function of VPN?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Encrypt Data",
-          content: [
-            "Transfer Data",
-            "Encrypt Data",
-            "Share Data",
-            "Link Data",
-          ],
+          content: ["Transfer Data", "Encrypt Data", "Share Data", "Link Data"],
         },
-         {
+        {
           id: 15,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `It is a safer approach to use a private internet connection, such as mobile phone or a personal 
         hotspot, to accessing wireless internet than use a public Wi-Fi network?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Yes",
-          content: [
-            "Yes",
-            "No",
-            
-          ],
+          content: ["Yes", "No"],
         },
-         {
+        {
           id: 15,
           type: 2,
           img: require("../../src/assets/Video/3-1-Video3.mp4"),
         },
-         {
+        {
           id: 16,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `I am working as an employee at the organization A, what should I do after finished using the 
 organization’s Wi-Fi network?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Turn the organization’s Wi-Fi network off",
           content: [
             "Reset the password of Wi-Fi network",
@@ -305,7 +305,7 @@ organization’s Wi-Fi network?`,
             "Find a VPN to connect my Wi-Fi network",
           ],
         },
-       
+
         {
           id: 17,
           type: 1,
@@ -315,7 +315,7 @@ organization’s Wi-Fi network?`,
 open public network should be the last solution and should be cautiously thinking when 
 connecting`,
         },
-         {
+        {
           id: 18,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
@@ -329,21 +329,19 @@ with sensitive data to ensure the security of the data.`,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Rule of Thumb #5:",
           content: `Using a VPN is one of the way to prevent hackers from viewing your online communications. 
-VPN can protect your privacy and data security when working in the office.`},
-            {
+VPN can protect your privacy and data security when working in the office.`,
+        },
+        {
           id: 19,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Rule of Thumb #6::",
           content: `Employees rely heavily on internet connection while working in the office. It is always safe to 
 practice what you have learned about Wi-Fi networks to protect your privacy and your 
-organization’s data security.`
-          },
-  
-     
-    
+organization’s data security.`,
+        },
       ],
-      pos:1,
+      pos: 1,
       lock: true,
       swiperOption2: {
         initialSlide: 0,
@@ -360,7 +358,7 @@ organization’s data security.`
         mousewheel: true,
         // 禁止快速滑动
         //  shortSwipes : false,
-          simulateTouch : false,//禁止鼠标模拟
+        simulateTouch: false, //禁止鼠标模拟
 
         on: {
           slideChangeTransitionEnd: function () {
@@ -374,6 +372,16 @@ organization’s data security.`
         },
       },
     };
+  },
+  created() {
+    if (!this.userStore.isLogin) {
+      this.$message({
+        showClose: true,
+        message: "Please login first",
+        type: "warning",
+      });
+      this.$router.replace("/login");
+    }
   },
   computed: {
     swipers() {
@@ -391,8 +399,8 @@ organization’s data security.`
           case 4:
             this.$refs.video[0].play();
             break;
-         
-              case 7:
+
+          case 7:
             this.$refs.video[1].play();
             break;
           case 18:
@@ -415,44 +423,44 @@ organization’s data security.`
   },
 
   methods: {
-   add(){
-     if (!this.lock) return;
+    add() {
+      if (!this.lock) return;
 
-            // 把过渡加上
-           this.$refs.box[this.itemIndex-1].style.transition = 'all .3s linear 0s';
-            if (this.pos == 1) {
-                // 瞬间移动，但是由于有过渡，所以是动画
-              if(this.itemIndex==13){
-              this.$refs.box[this.itemIndex-1].style.bottom = '250px'
-                } else{
-                this.$refs.box[this.itemIndex-1].style.bottom = '290px';}
-                // this.pos = 2;
-            } 
-            // else if (this.pos == 2) {
-            //     // 瞬间移动，但是由于有过渡，所以是动画
-            //   this.$refs.box[this.itemIndex-1].style.top = '100px';
-            //     this.pos = 1;
-            // }
- 
-            // 关锁
-            // this.lock = false;
-              this.lock = true;
-            // 设置延时器开锁，时间与过渡时间最好相同
-            setTimeout(function() {
-                this.lock = true;
-            }, 500)
-   },
-    getUps(){
+      // 把过渡加上
+      this.$refs.box[this.itemIndex - 1].style.transition = "all .3s linear 0s";
+      if (this.pos == 1) {
+        // 瞬间移动，但是由于有过渡，所以是动画
+        if (this.itemIndex == 13) {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "250px";
+        } else {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "290px";
+        }
+        // this.pos = 2;
+      }
+      // else if (this.pos == 2) {
+      //     // 瞬间移动，但是由于有过渡，所以是动画
+      //   this.$refs.box[this.itemIndex-1].style.top = '100px';
+      //     this.pos = 1;
+      // }
 
-        this.readonly=true
-        this.contents=true
+      // 关锁
+      // this.lock = false;
+      this.lock = true;
+      // 设置延时器开锁，时间与过渡时间最好相同
+      setTimeout(function () {
+        this.lock = true;
+      }, 500);
+    },
+    getUps() {
+      this.readonly = true;
+      this.contents = true;
     },
     allowSlid(type) {
-      if (type == 6 || type == 14||  type == 16||type == 17|| type == 19) {
+      if (type == 6 || type == 14 || type == 16 || type == 17 || type == 19) {
         this.allowSlids();
         // this.$refs.Drags.setData(this.allowSlids)
         // 防止事件冲突
-        this.swipers.simulateTouch=false
+        this.swipers.simulateTouch = false;
       }
     },
     // 禁用公共方法
@@ -462,7 +470,6 @@ organization’s data security.`
     },
     //解除禁用公共方法L
     allowSlidLift() {
-
       this.swipers.allowSlideNext = true;
       this.swipers.allowSlidePrev = true;
     },
@@ -491,7 +498,7 @@ organization’s data security.`
     right1(type, index, correct, content) {
       this.rights(type, index, correct, content);
     },
- 
+
     // 问题对答方法 当前项 角标 正确答案 答案列表
     rights(type, index, options, list) {
       if (this.disableds) {
@@ -508,13 +515,12 @@ organization’s data security.`
           list.forEach((item, index) => {
             if (item == options) {
               this.indexAlls = index;
-              
             }
           });
           this.right = "active";
           this.tu1Color = false;
           this.indexAll = index;
-         this.$refs.mistake[this.itemIndex-1].style.display = 'block'
+          this.$refs.mistake[this.itemIndex - 1].style.display = "block";
           this.$message.error("sorry");
         }
         this.allowSlidLift();
@@ -594,7 +600,6 @@ organization’s data security.`
       font-size: 40px;
       font-weight: bold;
       color: #724eb0;
-    
     }
     span {
       color: #212121;
@@ -635,34 +640,30 @@ organization’s data security.`
 }
 .drag {
   position: absolute;
- top:391px;
+  top: 391px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.dragTitle{
-      font-size: 35px;
-      font-weight: bold;
-      color: #212121;
-      text-align: center;
-   position: absolute;
-   top:130px
-    
+.dragTitle {
+  font-size: 35px;
+  font-weight: bold;
+  color: #212121;
+  text-align: center;
+  position: absolute;
+  top: 130px;
 }
-  #box {
-    position: absolute;
-    bottom:  -100px;
-    left: 50%;
-    width: 900px;
-    height: 100px; 
-  
-    margin-left: -450px;
-        }
+#box {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  width: 900px;
+  height: 100px;
 
-#btn{
+  margin-left: -450px;
+}
+
+#btn {
   position: relative;
   border: transparent 1px #fff;
-
 }
-
-
 </style>

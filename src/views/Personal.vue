@@ -3,18 +3,26 @@
     <swiper :options="swiperOption2" ref="myswiper" class="title">
       <swiper-slide v-for="(item, index) in videoList" :key="index">
         <div
-            @click="add"
+          @click="add"
           v-if="item.type == 1"
-         id="btn"
+          id="btn"
           :style="`background: center/cover url(${item.img}) no-repeat;width:100%;height: 100%`"
         >
-          <div class="text" style="width: 60%;margin:auto;text-align: center;margin-top:200px">
-            <h1 style="  color: #724eb0">{{ item.title }}</h1>
-   
-            <span  id="mistake" ref="mistake"></span>
-                <span  id="box" ref="box" >
-                 <span > {{ item.content }}</span> 
-                  </span>
+          <div
+            class="text"
+            style="
+              width: 60%;
+              margin: auto;
+              text-align: center;
+              margin-top: 200px;
+            "
+          >
+            <h1 style="color: #724eb0">{{ item.title }}</h1>
+
+            <span id="mistake" ref="mistake"></span>
+            <span id="box" ref="box">
+              <span> {{ item.content }}</span>
+            </span>
           </div>
         </div>
         <div v-else-if="item.type == 2">
@@ -33,8 +41,8 @@
               :src="item.img"
               ref="video"
             ></video>
-             <span  id="mistake" ref="mistake"></span>
-                <span  id="box" ref="box"></span>
+            <span id="mistake" ref="mistake"></span>
+            <span id="box" ref="box"></span>
           </div>
         </div>
         <div
@@ -43,7 +51,9 @@
           :style="`background: center/cover url(${item.img}) no-repeat;width:100%;height: 100%`"
         >
           <div class="maskLayer">
-            <div class="question" style="width:70%;text-align: center;">{{ item.title }}</div>
+            <div class="question" style="width: 70%; text-align: center">
+              {{ item.title }}
+            </div>
 
             <div
               class="answer"
@@ -72,12 +82,13 @@
                 >{{ items }}</el-button
               >
             </div>
-          <span  id="box" ref="box"></span>
-                <span  id="mistake" style="display:none" ref="mistake">{{item.mistake}}</span>
+            <span id="box" ref="box"></span>
+            <span id="mistake" style="display: none" ref="mistake">{{
+              item.mistake
+            }}</span>
           </div>
         </div>
-     
-      
+
         <div class="rights">{{ index + 1 }}/{{ videoList.length }}</div>
       </swiper-slide>
     </swiper>
@@ -104,17 +115,20 @@
 //导入swiper
 import "vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import { userStore } from "@/store";
 import Drag from "./Drag.vue";
+
 export default {
   name: "default",
   data() {
     const that = this;
     return {
-      mistakes:false,
-       boxshow:false,
-      readonly:false,
-        textarea: '',
-        contents:false,
+      userStore: userStore(),
+      mistakes: false,
+      boxshow: false,
+      readonly: false,
+      textarea: "",
+      contents: false,
       up: true,
       down: true,
       indexAll: 0,
@@ -123,7 +137,7 @@ export default {
       right: "",
       disableds: true,
       itemList: [],
-    
+
       itemIndex: 1,
       videoList: [
         {
@@ -149,17 +163,13 @@ export default {
           id: 4,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
-          title: "Which of the following passwords could be considered as weak passwords?",
+          title:
+            "Which of the following passwords could be considered as weak passwords?",
           correct: "All of the above",
-        //   mistake:'Billy made the mistake that he should not share the video with his friends.',
-          content: [
-            "123456",
-            "Password",
-            "Qwerty",
-            "All of the above",
-          ],
+          //   mistake:'Billy made the mistake that he should not share the video with his friends.',
+          content: ["123456", "Password", "Qwerty", "All of the above"],
         },
-          {
+        {
           id: 5,
           type: 2,
           img: require("../../src/assets/Video/2-1-Video2.mp4"),
@@ -173,8 +183,6 @@ export default {
 use, which are brute force attack, phishing attack, guessing attack, dictionary attack and rainbow 
 table attack`,
         },
-       
-        
 
         {
           id: 7,
@@ -215,12 +223,12 @@ possibilities, such as words in a dictionary.`,
           content: `Rainbow Table attack is very fast and uses a listing of all possible plaintext permutations of 
 encrypted passwords specific to a given hash algorithm.`,
         },
-         {
+        {
           id: 12,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `Which of the following is the method that hackers use to steal passwords?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Dictionary attack",
           content: [
             "Brilliant Force attack",
@@ -229,31 +237,26 @@ encrypted passwords specific to a given hash algorithm.`,
             "Rain Table",
           ],
         },
-         {
+        {
           id: 13,
           type: 2,
           img: require("../../src/assets/Video/2-1-Video3.mp4"),
         },
-         {
+        {
           id: 14,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `What strategy did Peter use to create a strong password?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "Passphrases",
-          content: [
-            "Lockpass",
-            "Passdoors",
-            "Passphrases",
-            "Passlinks",
-          ],
+          content: ["Lockpass", "Passdoors", "Passphrases", "Passlinks"],
         },
-         {
+        {
           id: 15,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `Which of the following is the strongest password?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "al8sk!@#dj8fh",
           content: [
             "qwertYuiop",
@@ -270,7 +273,7 @@ encrypted passwords specific to a given hash algorithm.`,
           content: `Let’s practice on how to create a secure password using the strategy passphrases<br/>
             Let’s get started`,
         },
-         {
+        {
           id: 17,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
@@ -284,75 +287,68 @@ encrypted passwords specific to a given hash algorithm.`,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Step #2:",
           content: `Now take only the first letter of each word in that phrase.<br/>
-            ““T P R O C”`},
-            {
+            ““T P R O C”`,
+        },
+        {
           id: 19,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Put a number and special character inside.",
-          content: `“T 1 P ! R @ O 9C”`
-          },
-            {
+          content: `“T 1 P ! R @ O 9C”`,
+        },
+        {
           id: 20,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Put it all together",
-          content: `T1P!R@O9C”`
-          },
-           {
+          content: `T1P!R@O9C”`,
+        },
+        {
           id: 21,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
-          title: "Make the password to have numbers, uppercase, lowercase, and special character.",
-          content: `“t1P!R@O9c”`
-          },
-           {
+          title:
+            "Make the password to have numbers, uppercase, lowercase, and special character.",
+          content: `“t1P!R@O9c”`,
+        },
+        {
           id: 22,
           type: 1,
           img: require("@/assets/Video/tu1.jpg"),
           title: "Congratulations! You have created a strong password.",
-          content: `Restart`
-          },
-           {
+          content: `Restart`,
+        },
+        {
           id: 23,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `Using the same password for both the office and personal accounts is acceptable`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "No",
-          content: [
-            "Yes",
-            "No",
-           
-          ],
+          content: ["Yes", "No"],
         },
-         {
+        {
           id: 24,
           type: 2,
           img: require("../../src/assets/Video/2-1-Video4.mp4"),
         },
-      
+
         {
           id: 25,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `Having learned the passphrases technique, what would be the correct way of showing the 
 phrase “Building Secure Passwords is Critical”?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "BSPIC",
-          content: [
-            "BSPIC",
-            "BSPC",
-            "bspic",
-            "BsPiC",
-          ],
+          content: ["BSPIC", "BSPC", "bspic", "BsPiC"],
         },
-         {
+        {
           id: 26,
           type: 3,
           img: require("@/assets/Video/tu1.jpg"),
           title: `What people should remember when creating new passwords?`,
-            //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
+          //  mistake:`Billy leaked Personally Identifiable Information after the scientist from MGC discovered the formula in the background of the video.`,
           correct: "All of the above",
           content: [
             "Be difficult",
@@ -361,10 +357,8 @@ phrase “Building Secure Passwords is Critical”?`,
             "All of the above",
           ],
         },
-     
-    
       ],
-      pos:1,
+      pos: 1,
       lock: true,
       swiperOption2: {
         initialSlide: 0,
@@ -381,7 +375,7 @@ phrase “Building Secure Passwords is Critical”?`,
         mousewheel: true,
         // 禁止快速滑动
         //  shortSwipes : false,
-          simulateTouch : false,//禁止鼠标模拟
+        simulateTouch: false, //禁止鼠标模拟
 
         on: {
           slideChangeTransitionEnd: function () {
@@ -395,6 +389,16 @@ phrase “Building Secure Passwords is Critical”?`,
         },
       },
     };
+  },
+  created() {
+    if (!this.userStore.isLogin) {
+      this.$message({
+        showClose: true,
+        message: "Please login first",
+        type: "warning",
+      });
+      this.$router.replace("/login");
+    }
   },
   computed: {
     swipers() {
@@ -415,7 +419,7 @@ phrase “Building Secure Passwords is Critical”?`,
           case 5:
             this.$refs.video[1].play();
             break;
-              case 13:
+          case 13:
             this.$refs.video[2].play();
             break;
           case 24:
@@ -438,48 +442,56 @@ phrase “Building Secure Passwords is Critical”?`,
   },
 
   methods: {
-   add(){
-     if (!this.lock) return;
+    add() {
+      if (!this.lock) return;
 
-            // 把过渡加上
-           this.$refs.box[this.itemIndex-1].style.transition = 'all .3s linear 0s';
-            if (this.pos == 1) {
-                // 瞬间移动，但是由于有过渡，所以是动画
-                if(this.itemIndex==15){
-              this.$refs.box[this.itemIndex-1].style.bottom = '190px'
-                }else if(this.itemIndex==13){
-              this.$refs.box[this.itemIndex-1].style.bottom = '250px'
-                } else if(this.itemIndex==23){
-              this.$refs.box[this.itemIndex-1].style.bottom = '250px'
-                }else{
-                this.$refs.box[this.itemIndex-1].style.bottom = '290px';}
-                // this.pos = 2;
-            } 
-            // else if (this.pos == 2) {
-            //     // 瞬间移动，但是由于有过渡，所以是动画
-            //   this.$refs.box[this.itemIndex-1].style.top = '100px';
-            //     this.pos = 1;
-            // }
- 
-            // 关锁
-            // this.lock = false;
-              this.lock = true;
-            // 设置延时器开锁，时间与过渡时间最好相同
-            setTimeout(function() {
-                this.lock = true;
-            }, 500)
-   },
-    getUps(){
+      // 把过渡加上
+      this.$refs.box[this.itemIndex - 1].style.transition = "all .3s linear 0s";
+      if (this.pos == 1) {
+        // 瞬间移动，但是由于有过渡，所以是动画
+        if (this.itemIndex == 15) {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "190px";
+        } else if (this.itemIndex == 13) {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "250px";
+        } else if (this.itemIndex == 23) {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "250px";
+        } else {
+          this.$refs.box[this.itemIndex - 1].style.bottom = "290px";
+        }
+        // this.pos = 2;
+      }
+      // else if (this.pos == 2) {
+      //     // 瞬间移动，但是由于有过渡，所以是动画
+      //   this.$refs.box[this.itemIndex-1].style.top = '100px';
+      //     this.pos = 1;
+      // }
 
-        this.readonly=true
-        this.contents=true
+      // 关锁
+      // this.lock = false;
+      this.lock = true;
+      // 设置延时器开锁，时间与过渡时间最好相同
+      setTimeout(function () {
+        this.lock = true;
+      }, 500);
+    },
+    getUps() {
+      this.readonly = true;
+      this.contents = true;
     },
     allowSlid(type) {
-      if (type == 4 ||type == 12|| type == 14|| type == 15|| type == 23|| type == 25|| type == 26) {
+      if (
+        type == 4 ||
+        type == 12 ||
+        type == 14 ||
+        type == 15 ||
+        type == 23 ||
+        type == 25 ||
+        type == 26
+      ) {
         this.allowSlids();
         // this.$refs.Drags.setData(this.allowSlids)
         // 防止事件冲突
-        this.swipers.simulateTouch=false
+        this.swipers.simulateTouch = false;
       }
     },
     // 禁用公共方法
@@ -489,7 +501,6 @@ phrase “Building Secure Passwords is Critical”?`,
     },
     //解除禁用公共方法L
     allowSlidLift() {
-
       this.swipers.allowSlideNext = true;
       this.swipers.allowSlidePrev = true;
     },
@@ -518,7 +529,7 @@ phrase “Building Secure Passwords is Critical”?`,
     right1(type, index, correct, content) {
       this.rights(type, index, correct, content);
     },
- 
+
     // 问题对答方法 当前项 角标 正确答案 答案列表
     rights(type, index, options, list) {
       if (this.disableds) {
@@ -535,13 +546,12 @@ phrase “Building Secure Passwords is Critical”?`,
           list.forEach((item, index) => {
             if (item == options) {
               this.indexAlls = index;
-              
             }
           });
           this.right = "active";
           this.tu1Color = false;
           this.indexAll = index;
-         this.$refs.mistake[this.itemIndex-1].style.display = 'block'
+          this.$refs.mistake[this.itemIndex - 1].style.display = "block";
           this.$message.error("sorry");
         }
         this.allowSlidLift();
@@ -621,7 +631,6 @@ phrase “Building Secure Passwords is Critical”?`,
       font-size: 40px;
       font-weight: bold;
       color: #724eb0;
-    
     }
     span {
       color: #212121;
@@ -662,34 +671,30 @@ phrase “Building Secure Passwords is Critical”?`,
 }
 .drag {
   position: absolute;
- top:391px;
+  top: 391px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.dragTitle{
-      font-size: 35px;
-      font-weight: bold;
-      color: #212121;
-      text-align: center;
-   position: absolute;
-   top:130px
-    
+.dragTitle {
+  font-size: 35px;
+  font-weight: bold;
+  color: #212121;
+  text-align: center;
+  position: absolute;
+  top: 130px;
 }
-  #box {
-    position: absolute;
-    bottom:  -100px;
-    left: 50%;
-    width: 900px;
-    height: 100px; 
-  
-    margin-left: -450px;
-        }
+#box {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  width: 900px;
+  height: 100px;
 
-#btn{
+  margin-left: -450px;
+}
+
+#btn {
   position: relative;
   border: transparent 1px #fff;
-
 }
-
-
 </style>

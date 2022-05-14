@@ -71,7 +71,7 @@ export default {
     Nav,
   },
   watch: {
-    '$route': {
+    $route: {
       handler() {
         this.reset();
       },
@@ -282,7 +282,7 @@ export default {
       position: absolute;
       bottom: 5px;
       right: 10px;
-      height: 100px;
+      height: 212px;
       width: 98%;
       background-color: rgba(57, 74, 112, 0.9);
       color: #bfcefb;
@@ -297,8 +297,8 @@ export default {
     }
     & /deep/ .el-radio-group {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
+      bottom: 87px;
+      left: 30px;
       .el-radio__label {
         color: #bfcefb;
       }
@@ -306,8 +306,8 @@ export default {
     input {
       box-sizing: border-box;
       position: absolute;
-      bottom: 30px;
-      left: 20px;
+      bottom: 127px;
+      left: 30px;
       background-color: rgba(100, 115, 156, 0.7);
       border: 0;
       height: 30px;
