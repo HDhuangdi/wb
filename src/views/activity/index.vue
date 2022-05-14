@@ -63,7 +63,7 @@ export default {
     Nav,
   },
   data: () => ({
-    activeIndex: 2,
+    activeIndex: 3,
     userStore: userStore(),
     activeGame: null,
     gameList: [

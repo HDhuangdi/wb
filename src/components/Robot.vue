@@ -113,13 +113,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translate(0, 93.5%);
+  transform: translate(0, 90.5%);
   transition: transform 0.3s;
   &:hover {
-    transform: translate(0, 90%);
+    transform: translate(0, 87%);
   }
   &.active {
-    transform: translate(0, 30%);
+    transform: translate(0, 27%);
   }
   .chat-box {
     width: 300px;
@@ -204,7 +204,7 @@ export default {
     }
   }
   .avatar {
-    width: 100px;
+    width: 150px;
     cursor: pointer;
   }
 }

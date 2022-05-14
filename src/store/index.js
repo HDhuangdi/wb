@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 
 export const userStore = defineStore("user", {
   state: () => ({
-    isLogin: false,
-    username: "",
+    isLogin: localStorage.iSecurityUsername || false,
+    username: localStorage.iSecurityUsername,
     password: "",
     lesson1: 0,
     lesson2: 0,

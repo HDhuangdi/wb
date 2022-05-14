@@ -37,7 +37,7 @@
       </el-card>
     </div>
     <div class="submit">
-      <button @click="onSubmit">Submit</button>
+      <button :class="{disabled}" @click="onSubmit">Submit</button>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     Nav,
   },
   data: () => ({
-    activeIndex: 4,
+    activeIndex: 5,
     form: {
       firstName: "",
       lastName: "",
@@ -58,8 +58,19 @@ export default {
       message: "",
     },
   }),
+  computed: {
+    disabled() {
+      return (
+        !this.form.firstName ||
+        !this.form.lastName ||
+        !this.form.subject ||
+        !this.form.message
+      );
+    },
+  },
   methods: {
     onSubmit() {
+      if (this.disabled) return;
       this.form = {
         firstName: "",
         lastName: "",
@@ -148,6 +159,10 @@ export default {
       background-color: #00cc99;
       color: #fff;
       font-size: 18px;
+      transition: all 0.5s;
+      &.disabled {
+        background-color: #aaa;
+      }
     }
   }
 }

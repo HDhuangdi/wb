@@ -18,7 +18,7 @@ export default {
     ForumNav
   },
   data: () => ({
-    activeIndex: 3
+    activeIndex: 4
   })
 };
 </script>

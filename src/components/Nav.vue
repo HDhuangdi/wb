@@ -1,62 +1,85 @@
 <template>
   <div class="nav">
-      <div class="header_left" @click="$router.push('/')">iSecurity</div>
-      <div class="header_right">
-        <div v-for="(item, index) in list" :key="index">
-          <el-dropdown>
-            <span
-              class="el-dropdown-link"
-              @click.stop="clickHandler(index, item)"
-              style="color: #fff"
-              :class="{ active: value == index ? true : false }"
+    <div class="header_left" @click="$router.push('/')">iSecurity</div>
+    <div class="header_right">
+      <div v-for="(item, index) in list" :key="index">
+        <el-dropdown>
+          <span
+            class="el-dropdown-link"
+            @click.stop="clickHandler(index, item)"
+            style="color: #fff"
+            :class="{ active: value == index ? true : false }"
+          >
+            {{ item.name
+            }}<i
+              v-if="item.content && item.content.length > 0"
+              class="el-icon-arrow-down el-icon--right"
+            ></i>
+          </span>
+          <el-dropdown-menu
+            v-if="!item.content || !item.content.length"
+            ref="aaa"
+            style="
+              padding: 0;
+              margin: 0;
+              background: rgb(13, 37, 71);
+              border: 0;
+            "
+          >
+            <el-dropdown-item></el-dropdown-item>
+          </el-dropdown-menu>
+          <el-dropdown-menu
+            slot="dropdown"
+            v-if="item.content && item.content.length"
+          >
+            <el-dropdown-item
+              @click.native="clickHandler(item.id, {name: dropdowns.name})"
+              :divided="true"
+              :command="indexs"
+              v-for="(dropdowns, indexs) in item.content"
+              :key="indexs"
+              >{{ dropdowns.name }}</el-dropdown-item
             >
-              {{ item.name
-              }}<i
-                v-if="item.content && item.content.length > 0"
-                class="el-icon-arrow-down el-icon--right"
-              ></i>
-            </span>
-            <el-dropdown-menu
-              ref="aaa"
-              style="
-                padding: 0;
-                margin: 0;
-                background: rgb(13, 37, 71);
-                border: 0;
-              "
-            >
-              <el-dropdown-item></el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { userStore } from '@/store'
+import { userStore } from "@/store";
 
 export default {
-  props: ['value'],
+  props: ["value"],
   data: () => ({
     userStore: userStore(),
     list: [
       { id: 0, name: "Home" },
       {
         id: 1,
-        name: "Lessons",
+        name: "Lessons ",
+        content: [
+          { id: 0, name: "Lessons1" },
+          { id: 1, name: "Lessons2" },
+          { id: 2, name: "Lessons3" },
+        ],
       },
       {
         id: 2,
+        name: "Learning Analytics",
+      },
+      {
+        id: 3,
         name: "Activity",
       },
-      { id: 3, name: "Forum" },
-      { id: 4, name: "Contact" }
+      { id: 4, name: "Forum" },
+      { id: 5, name: "Contact" },
     ],
   }),
   created() {
     if (!this.userStore.isLogin) {
-      this.list.push({ id: 4, name: "Login>>" })
+      this.list.push({ id: 4, name: "Login>>" });
     }
   },
   methods: {
@@ -64,11 +87,21 @@ export default {
       this.$refs.aaa[type].appendArrow(false);
     },
     clickHandler(index, item) {
+      console.log(item.name);
       switch (item.name) {
         case "Home":
           this.$router.push("/home");
           break;
-        case "Lessons":
+        case 'Lessons1':
+          this.$router.push("/about");
+          break;
+        case 'Lessons2':
+          this.$router.push("/enterprise");
+          break;
+        case 'Lessons3':
+          this.$router.push("/personal");
+          break;
+        case "Learning Analytics":
           this.$router.push("/learning-analytics");
           break;
         case "Activity":
@@ -83,10 +116,11 @@ export default {
         case "Login>>":
           this.$router.push("/login");
           break;
+
         default:
           break;
       }
-      this.$emit('input', index)
+      this.$emit("input", index);
     },
   },
 };

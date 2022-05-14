@@ -17,6 +17,21 @@ const routes = [
       import(/* webpackChunkName: "Earth" */ "../views/earth/index.vue"),
   },
   {
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/personal',
+    name: 'Personal',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue')
+  },
+  {
+    path: '/enterprise',
+    name: 'Enterprise',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Enterprise.vue')
+  },
+  {
     path: "/learning-analytics",
     name: "LearningAnalytics",
     component: () =>

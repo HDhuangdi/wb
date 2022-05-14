@@ -90,6 +90,7 @@ export default {
   }),
   methods: {
     publish() {
+      if (!this.comment) return
       this.commentList.push({
         content: this.comment,
         time: moment(new Date()).format("yyyy-MM-DD HH:mm:ss"),
@@ -189,19 +190,16 @@ export default {
       .comment-list {
         margin-top: 10px;
         list-style: none;
-        border: 1px solid #d5dcf3;
-        border-radius: 10px;
-        padding: 10px 0;
         li {
+          border-radius: 10px;
+          border: 1px solid #d5dcf3;
           padding: 20px;
+          margin-bottom: 10px;
           p:last-child {
             float: right;
             font-size: 13px;
             color: #69718b;
           }
-        }
-        li:not(:last-child) {
-          border-bottom: 1px solid #d5dcf3;
         }
       }
       .comment-area {

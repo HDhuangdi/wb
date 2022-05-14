@@ -28,7 +28,7 @@ export default {
     Nav,
   },
   data: () => ({
-    activeIndex: 5,
+    activeIndex: 6,
     userStore: userStore(),
     username: "",
     password: "",
@@ -38,6 +38,7 @@ export default {
       this.userStore.username = this.username
       this.userStore.password = this.password
       this.userStore.isLogin = true
+      localStorage.iSecurityUsername = this.username
       this.$message({
         message: "Login successfully",
         type: "success",
