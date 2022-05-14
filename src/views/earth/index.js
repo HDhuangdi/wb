@@ -365,7 +365,7 @@ export default class Render {
       depthTest: false,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      size: 2,
+      size: 3,
       opacity: 0.4,
     });
     const points = new THREE.Points(geo, material);
