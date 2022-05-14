@@ -15,10 +15,12 @@ export default class Render {
     this.countryGeoRadius = 2;
     this.center = new THREE.Vector3(0, 0, 0);
     this.earth = new THREE.Group();
+    this.objList = []
+    this.objList.push(this.earth)
     this.satelliteAnimationDuration = 20; // s
     this.satellitePathIndex = 0;
     this.raycaster = new THREE.Raycaster();
-
+    
     this.initScene();
     this.initCamera();
     this.initLight();
@@ -34,10 +36,17 @@ export default class Render {
       this.controls.minDistance = 400;
       this.controls.minPolarAngle = Math.PI / 2 - Math.PI / 10;
       this.controls.maxPolarAngle = Math.PI / 2 - Math.PI / 10;
+      this.objList.push(this.controls)
       this.earth.position.copy(this.center);
       this.scene.add(this.earth);
       this.render();
     });
+  }
+
+  dispose() {
+    for (const obj of this.scene.children) {
+      this.scene.remove(obj);
+    }
   }
 
   initEvent() {
@@ -56,13 +65,15 @@ export default class Render {
         (evt) => evt.object.name === "earthFloatText"
       );
       if (found) {
-        window.location = "/#/home";
+        this.clearScene()
+        window.location = "/#/home"
       }
     }
   }
 
   initScene() {
     this.scene = new THREE.Scene();
+    this.objList.push(this.scene)
   }
 
   initRenderer() {
@@ -71,8 +82,9 @@ export default class Render {
       alpha: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setClearColor(0x000000, 1);
+    this.renderer.setClearColor(0x000000, 0);
     this.renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);
+    this.objList.push(this.renderer)
     const container = document.getElementById("webgl-container");
 
     container.appendChild(this.renderer.domElement);
@@ -88,12 +100,17 @@ export default class Render {
     this.camera.position.set(300, 0, 100);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.scene.add(this.camera);
+    this.objList.push(this.camera)
   }
 
   initLight() {
     this.light = new THREE.PointLight(0xffffff, 0.8); // white light
     this.light.position.set(200, 200, 0);
+    this.amLight = new THREE.AmbientLight(0xffffff, 0.4)
     this.scene.add(this.light);
+    this.scene.add(this.amLight);
+    this.objList.push(this.amLight);
+    this.objList.push(this.light)
   }
 
   render() {
@@ -155,7 +172,7 @@ export default class Render {
     // 大陆点
     this.drawDots();
     // 云层
-    this.drawClouds();
+    // this.drawClouds();
     // 轨道
     this.satellitePathPoints = this.drawTrack(
       this.RADIUS * 2.5,
@@ -170,12 +187,14 @@ export default class Render {
     this.drawDust();
     // 地球文字
     this.earthText = new THREE.Group();
+    this.objList.push(this.earthText)
     this.initText("Welcome to the iSecurity e-Learning Platform!", 12, 260, 15);
     this.initText("The University of Hong Kong", 12, 160, 5);
     this.initText("Faculty of Education", 12, 100, -5);
     this.initText("Zian Lu", 12, 40, -15);
     // 环绕
     this.earthFloatText = new THREE.Group();
+    this.objList.push(this.earthFloatText)
     this.floatText(
       "Security Need, Personal Security, Enterprise Security.Security Need, Personal Security, Enterprise Security",
       12,
@@ -202,8 +221,9 @@ export default class Render {
         size: size,
         height: 2,
       });
-      var m = new THREE.MeshPhongMaterial({ color: 0x009f9e });
+      var m = new THREE.MeshBasicMaterial({ color: 0xffffff });
       var mesh = new THREE.Mesh(g, m);
+      this.objList.push(mesh)
       mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat]));
       mesh.lookAt(this.center);
       mesh.rotateY(Math.PI);
@@ -230,8 +250,9 @@ export default class Render {
         size: size,
         height: 2,
       });
-      var m = new THREE.MeshBasicMaterial({ color: 0x03d98e });
+      var m = new THREE.MeshBasicMaterial({ color: 0xA6E5E9 });
       var mesh = new THREE.Mesh(g, m);
+      this.objList.push(mesh)
       mesh.position.copy(
         this.lnglat2Vector3([-all / 2 + index * step, lat], 150)
       );
@@ -247,8 +268,10 @@ export default class Render {
   // 国家打点
   drawCountries() {
     this.countriesGroup = new THREE.Group();
+    this.objList.push(this.countriesGroup)
     countries.forEach((city, index) => {
       const countryGroup = new THREE.Group();
+      this.objList.push(countryGroup)
       // 城市六边形
       const position = this.lnglat2Vector3(city.position);
       const circleGeo = new THREE.CircleGeometry(this.countryGeoRadius, 6); // 正六边形
@@ -257,6 +280,7 @@ export default class Render {
         side: THREE.DoubleSide,
       });
       const circle = new THREE.Mesh(circleGeo, circleMaterial);
+      this.objList.push(circle)
       // 城市六边形边框
       const lineGeo = new THREE.BufferGeometry();
       const linePoints = this.getVertices(
@@ -271,15 +295,17 @@ export default class Render {
         linewidth: 1,
       });
       const line = new THREE.Line(lineGeo, lineMaterial);
+      this.objList.push(line)
       // 城市光柱
-      const beamGroup = this.drawBeams(position, index % 2);
+      // const beamGroup = this.drawBeams(position, index % 2);
+      // this.objList.push(beamGroup)
       countryGroup.add(circle);
       countryGroup.add(line);
       countryGroup.position.copy(position);
       countryGroup.lookAt(new THREE.Vector3(0, 0, 0));
-      beamGroup.lookAt(new THREE.Vector3(0, 0, 0));
+      // beamGroup.lookAt(new THREE.Vector3(0, 0, 0));
       this.countriesGroup.add(countryGroup);
-      this.countriesGroup.add(beamGroup);
+      // this.countriesGroup.add(beamGroup);
     });
     this.countriesGroup.add(this.center);
     this.earth.add(this.countriesGroup);
@@ -334,7 +360,7 @@ export default class Render {
     geo.setFromPoints(positions);
     const material = new THREE.PointsMaterial({
       map: new THREE.TextureLoader().load(require("@/assets/images/dot.png")),
-      color: new THREE.Color(0x03d98e),
+      color: new THREE.Color(0x81AEDB),
       transparent: true,
       depthTest: false,
       side: THREE.DoubleSide,
@@ -343,6 +369,7 @@ export default class Render {
       opacity: 0.4,
     });
     const points = new THREE.Points(geo, material);
+    this.objList.push(points)
 
     this.earth.add(points);
   }
@@ -364,7 +391,7 @@ export default class Render {
         },
         diffuse: {
           type: "vec3",
-          value: new THREE.Color(263385797),
+          value: new THREE.Color(0x81AEDB),
         },
         opacity: {
           type: "float",
@@ -402,6 +429,7 @@ export default class Render {
       `,
     });
     const cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+    this.objList.push(cloud)
     this.earth.add(cloud);
   }
 
@@ -414,13 +442,14 @@ export default class Render {
     const trackGeo = new THREE.BufferGeometry();
     trackGeo.setFromPoints(linePoints);
     const trackMaterial = new THREE.LineBasicMaterial({
-      color: new THREE.Color(0x03d98e),
+      color: new THREE.Color(0xffffff),
       transparent: true,
       opacity: 0.3,
       linewidth: 1,
     });
 
     this[variable] = new THREE.Line(trackGeo, trackMaterial);
+    this.objList.push(this[variable])
     this[variable][method](value);
     this[variable].position.add(this.center);
     this.scene.add(this[variable]);
@@ -432,14 +461,16 @@ export default class Render {
     const obj = await loadObj("/satellite.obj");
     const geos = obj.children.map((mesh) => mesh.geometry);
     this.satellite = new THREE.Group();
+    this.objList.push(this.satellite)
     geos.forEach((geo) => {
       const material = new THREE.LineBasicMaterial({
-        color: new THREE.Color(0x03d98e),
+        color: new THREE.Color(0xF0C2FF),
         transparent: true,
-        opacity: 0.1,
+        opacity: 0.6,
         linewidth: 1,
       });
       const mesh = new THREE.Line(geo, material);
+      this.objList.push(mesh)
       this.satellite.add(mesh);
     });
     this.scene.add(this.satellite);
@@ -464,16 +495,18 @@ export default class Render {
   drawDust() {
     const DUST_RADIUS = this.RADIUS * 3;
     this.dust = new THREE.Group();
+    this.objList.push(this.dust)
     for (let index = 0; index < 300; index++) {
-      const geo = new THREE.BoxGeometry(1, 1, 1);
+      const geo = new THREE.BoxGeometry(3, 3, 3);
       const material = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(0x009f9e),
+        color: new THREE.Color(0xffffff),
         side: THREE.DoubleSide,
         depthTest: false,
         transparent: true,
         opacity: 0.2,
       });
       const dust = new THREE.Mesh(geo, material);
+      this.objList.push(dust)
 
       const r = getRandomNum(DUST_RADIUS * 0.8, DUST_RADIUS);
       const alpha = getRandomNum(0, Math.PI * 2);
@@ -522,5 +555,37 @@ export default class Render {
       vertices.push(new THREE.Vector3(cur, next1, next2));
     }
     return vertices;
+  }
+
+  clearScene() {
+    if (this.objList.length > 0) {
+      for (var i = 0; i < this.objList.length; i++) {
+        var currObj = this.objList[i];
+        if (currObj instanceof THREE.Scene) {
+          var children = currObj.children;
+          for (var i = 0; i < children.length; i++) {
+            this.deleteGroup(children[i]);
+          }
+        } else if(currObj instanceof THREE.Group)  {
+          this.deleteGroup(currObj);
+        } else {
+          currObj.geometry && currObj.geometry.dispose();
+        }
+        this.scene.remove(currObj);
+        currObj = null
+      }
+    }
+  }
+
+  //Delete group is object is composed
+  deleteGroup(group) {
+    //console.log(group);
+    if (!group) return;
+    //Delete all the meshes in group
+    group.traverse(function (item) {
+      if (item instanceof THREE.Mesh) {
+        item.geometry.dispose();
+      }
+    });
   }
 }

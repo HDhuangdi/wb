@@ -23,6 +23,7 @@ const game1Info = [
   {
     background: require("@/assets/images/2.png"),
     character: require("@/assets/images/3.png"),
+    characterClass: 'image3',
     content:
       "Take our lady Amy here for example.<br>She is working on some invoices in the office.",
   },
@@ -38,8 +39,7 @@ const game1Info = [
   {
     background: require("@/assets/images/4.png"),
     character: require("@/assets/images/5.png"),
-    characterHeight: 388,
-    characterWidth: 150,
+    characterClass: 'image5',
     content:
       "Wait! All the invoices Amy has downloaded from office is sent directly to Tom.",
   },

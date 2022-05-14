@@ -18,15 +18,13 @@ const game3Info = [
   {
     background: require("@/assets/images/20.png"),
     character: require("@/assets/images/5.png"),
-    characterHeight: 388,
-    characterWidth: 150,
+    characterClass: 'image5',
     content: "This is a cyber criminal, Tom!",
   },
   {
     background: require("@/assets/images/20.png"),
     character: require("@/assets/images/5.png"),
-    characterHeight: 388,
-    characterWidth: 150,
+    characterClass: 'image5',
     content:
       "He is currently trying to hack into an unsuspecting social media manager (Amy’s) account for sensitive information.",
   },

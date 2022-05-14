@@ -13,40 +13,48 @@
       </el-select>
     </div>
     <div class="game" v-else>
-      <img class="bg" :src="current.background" alt="" />
-      <div
-        class="dialog-box"
-        :class="{ short: current.character }"
-        v-html="getContent(current.content)"
-      ></div>
-      <i @click="next" class="el-icon-caret-bottom"></i>
-
-      <img
-        class="character"
-        :style="{
-          height: current.characterHeight + 'px',
-          width: current.characterWidth + 'px',
-        }"
-        v-if="current.character"
-        :src="current.character"
-        alt=""
-      />
-      <input
-        type="text"
-        v-model="form[current.key]"
-        v-if="current.formItem === 'input'"
-      />
-      <el-radio-group
-        v-model="form[current.key]"
-        v-if="current.formItem === 'radio'"
-      >
-        <el-radio
-          :label="item"
-          v-for="(item, index) of current.formItemContent"
-          :key="index"
-          >{{ item }}</el-radio
-        >
-      </el-radio-group>
+      <div v-for="(item, index) of game" :key="index">
+        <img
+          class="bg"
+          v-if="index === activeGameContentIndex"
+          :src="item.background"
+          alt=""
+        />
+        <transition name="fade">
+          <div class="dialog" v-if="index === activeGameContentIndex">
+            <i @click="next" class="el-icon-caret-bottom"></i>
+            <img
+              class="character"
+              :class="item.characterClass"
+              v-if="item.character"
+              :src="item.character"
+              alt=""
+            />
+            <input
+              type="text"
+              v-model="form[item.key]"
+              v-if="item.formItem === 'input'"
+            />
+            <el-radio-group
+              v-model="form[item.key]"
+              v-if="item.formItem === 'radio'"
+              style="z-index: 10"
+            >
+              <el-radio
+                :label="item"
+                v-for="(item, index) of item.formItemContent"
+                :key="index"
+                >{{ item }}</el-radio
+              >
+            </el-radio-group>
+            <div
+              class="dialog-box"
+              :class="{ short: item.character }"
+              v-html="getContent(item.content)"
+            ></div>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -62,10 +70,16 @@ export default {
   components: {
     Nav,
   },
+  watch: {
+    '$route': {
+      handler() {
+        this.reset();
+      },
+    },
+  },
   data: () => ({
     activeIndex: 3,
     userStore: userStore(),
-    activeGame: null,
     gameList: [
       {
         id: 1,
@@ -109,6 +123,9 @@ export default {
     activeGameContentIndex: 0,
   }),
   computed: {
+    activeGame() {
+      return this.$route.query.game * 1;
+    },
     calcGameScore() {
       switch (this.activeGame) {
         case 1:
@@ -190,6 +207,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.fade-enter {
+  opacity: 0.2;
+}
+.fade-enter-to {
+  opacity: 0.9;
+}
+.fade-enter-active {
+  transition: all 0.5s;
+}
+.fade-leave {
+  opacity: 0.9;
+}
+.fade-leave-to {
+  opacity: 0.2;
+}
+.fade-leave-active {
+  transition: all 0.5s;
+}
 .activity {
   background: rgba(13, 37, 71, 1);
   .select {
@@ -220,36 +255,44 @@ export default {
     position: relative;
     .bg {
       width: 100%;
-      height: calc(100% - 100px);
+      height: calc(100%);
       position: absolute;
       left: 50%;
       top: 0%;
       transform: translate(-50%, 0);
     }
     .character {
-      width: 30%;
       box-sizing: border-box;
       position: absolute;
-      bottom: 0;
       z-index: 2;
-      left: 0;
       user-select: none;
+      &.image3 {
+        bottom: 23px;
+        left: 21px;
+        width: 15%;
+      }
+      &.image5 {
+        bottom: -1px;
+        left: 38px;
+        width: 10%;
+      }
     }
     .dialog-box {
       box-sizing: border-box;
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 5px;
+      right: 10px;
       height: 100px;
-      width: 100%;
-      background-color: #394a70;
+      width: 98%;
+      background-color: rgba(57, 74, 112, 0.9);
       color: #bfcefb;
       border-radius: 10px;
       padding: 20px;
       overflow-y: auto;
       letter-spacing: 1px;
+
       &.short {
-        width: 70%;
+        width: 80%;
       }
     }
     & /deep/ .el-radio-group {
@@ -265,7 +308,7 @@ export default {
       position: absolute;
       bottom: 30px;
       left: 20px;
-      background-color: #64739c;
+      background-color: rgba(100, 115, 156, 0.7);
       border: 0;
       height: 30px;
       width: 70%;
@@ -273,12 +316,15 @@ export default {
       padding: 0 5px;
       color: #bfcefb;
       border-radius: 5px;
+      z-index: 10;
     }
     .el-icon-caret-bottom {
       color: #fff;
       position: absolute;
       bottom: 5px;
       right: 20px;
+      z-index: 10;
+      cursor: pointer;
     }
   }
 }

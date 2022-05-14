@@ -33,7 +33,7 @@
             v-if="item.content && item.content.length"
           >
             <el-dropdown-item
-              @click.native="clickHandler(item.id, {name: dropdowns.name})"
+              @click.native="clickHandler(item.id, { name: dropdowns.name })"
               :divided="true"
               :command="indexs"
               v-for="(dropdowns, indexs) in item.content"
@@ -72,6 +72,11 @@ export default {
       {
         id: 3,
         name: "Activity",
+        content: [
+          { id: 0, name: "Lesson 1 Game" },
+          { id: 1, name: "Lesson 2 Game" },
+          { id: 2, name: "Lesson 3 Game" },
+        ],
       },
       { id: 4, name: "Forum" },
       { id: 5, name: "Contact" },
@@ -79,7 +84,9 @@ export default {
   }),
   created() {
     if (!this.userStore.isLogin) {
-      this.list.push({ id: 4, name: "Login>>" });
+      this.list.push({ id: 6, name: "Login>>" });
+    } else {
+      this.list.push({ id: 6, name: "Logout" });
     }
   },
   methods: {
@@ -87,25 +94,30 @@ export default {
       this.$refs.aaa[type].appendArrow(false);
     },
     clickHandler(index, item) {
-      console.log(item.name);
       switch (item.name) {
         case "Home":
           this.$router.push("/home");
           break;
-        case 'Lessons1':
+        case "Lessons1":
           this.$router.push("/about");
           break;
-        case 'Lessons2':
+        case "Lessons2":
           this.$router.push("/enterprise");
           break;
-        case 'Lessons3':
+        case "Lessons3":
           this.$router.push("/personal");
           break;
         case "Learning Analytics":
           this.$router.push("/learning-analytics");
           break;
-        case "Activity":
-          this.$router.push("/activity");
+        case "Lesson 1 Game":
+          this.$router.push("/activity?game=1");
+          break;
+          case "Lesson 2 Game":
+          this.$router.push("/activity?game=2");
+          break;
+          case "Lesson 3 Game":
+          this.$router.push("/activity?game=3");
           break;
         case "Forum":
           this.$router.push("/forum");
@@ -115,6 +127,9 @@ export default {
           break;
         case "Login>>":
           this.$router.push("/login");
+        case "Logout":
+          localStorage.iSecurityUsername = "";
+          location.reload();
           break;
 
         default:
