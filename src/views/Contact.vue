@@ -10,6 +10,7 @@
     <div class="form">
       <el-card class="box-card">
         <div class="left">
+          <img class="map" :src="require('@/assets/images/map.png')" alt="">
           <p>Map/Satellite</p>
           <p>The University of Hong Kong</p>
           <p>The Faculty of Education</p>
@@ -116,6 +117,9 @@ export default {
       }
       .left {
         min-height: 300px;
+        .map {
+          width: 100%;
+        }
       }
       .right {
         border-left: 1px solid #909fcb;
