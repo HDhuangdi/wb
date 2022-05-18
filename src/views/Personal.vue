@@ -6,7 +6,7 @@
           @click="add"
           v-if="item.type == 1"
           id="btn"
-          :style="`background: center/cover url(${item.img}) no-repeat;width:100%;height: 100%`"
+          :style="`background: rgba(13, 37, 71, 1);width:100%;height: 100%`"
         >
           <div
             class="text"
@@ -103,6 +103,7 @@
       <div>
         <span
           class="el-icon-bottom icon-item"
+          style="color: #fff"
           v-if="itemIndex != videoList.length"
           @click="getdown"
         ></span>

@@ -58,7 +58,7 @@ export default {
       { id: 0, name: "Home" },
       {
         id: 1,
-        name: "Lessons ",
+        name: "Resources",
         content: [
           { id: 0, name: "Lessons1" },
           { id: 1, name: "Lessons2" },
@@ -67,10 +67,6 @@ export default {
       },
       {
         id: 2,
-        name: "Learning Analytics",
-      },
-      {
-        id: 3,
         name: "Activity",
         content: [
           { id: 0, name: "Lesson 1 Game" },
@@ -78,15 +74,27 @@ export default {
           { id: 2, name: "Lesson 3 Game" },
         ],
       },
-      { id: 4, name: "Forum" },
-      { id: 5, name: "Contact" },
+      {
+        id: 3,
+        name: "Support",
+      },
+      {
+        id: 4,
+        name: "Evalution",
+      },
+      { id: 5, name: "Forum" },
+      { id: 6, name: "Contact" },
+      {
+        id: 7,
+        name: "Learning Analytics",
+      }
     ],
   }),
   created() {
     if (!this.userStore.isLogin) {
-      this.list.push({ id: 6, name: "Login>>" });
+      this.list.push({ id: 8, name: "Log in" });
     } else {
-      this.list.push({ id: 6, name: "Logout" });
+      this.list.push({ id: 8, name: "Log out" });
     }
   },
   methods: {
@@ -125,14 +133,13 @@ export default {
         case "Contact":
           this.$router.push("/contact");
           break;
-        case "Login>>":
+        case "Log in":
           this.$router.push("/login");
-        case "Logout":
+          break;
+        case "Log out":
           this.userStore.isLogin = false
-          localStorage.iSecurityUsername = "";
           location.reload();
           break;
-
         default:
           break;
       }

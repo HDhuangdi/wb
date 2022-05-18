@@ -2,14 +2,14 @@
   <div class="qa">
     <div class="banner">
       <h1>Questions & Answers</h1>
-      <p> </p>
+      <p></p>
     </div>
     <div class="detail">
       <div class="detail-left">
         <div class="header">
           <div class="header-left">
-            <div class="avatar">L</div>
-            <p>Liming LM</p>
+            <div class="avatar">{{ userStore.username[0].toUpperCase() }}</div>
+            <p>{{ userStore.username }}</p>
           </div>
           <div class="header-right">Jun 02,2021 · Edited: Jun 02,2021</div>
         </div>
@@ -19,7 +19,9 @@
           <p>Dear learners:</p>
           <p>Hi!</p>
           <p>
-            Here you can post your questions and receive clarifications from other learners. At the same time, you can also answer questions posted by other learners.
+            Here you can post your questions and receive clarifications from
+            other learners. At the same time, you can also answer questions
+            posted by other learners.
           </p>
           <p>Let’s join the course together!</p>
           <p>The Design and Development Team</p>
@@ -74,9 +76,15 @@
         </div>
         <div class="similar-posts">
           <h3>Similar Posts</h3>
-          <p @click="$router.push('/forum/welcome')">Welcome to the Welcoming Post!</p>
-          <p @click="$router.push('/forum/self')">Welcome to the Self-Introduction!</p>
-          <p @click="$router.push('/forum/rules')">Welcome to the Rules & Regulations!</p>
+          <p @click="$router.push('/forum/welcome')">
+            Welcome to the Welcoming Post!
+          </p>
+          <p @click="$router.push('/forum/self')">
+            Welcome to the Self-Introduction!
+          </p>
+          <p @click="$router.push('/forum/rules')">
+            Welcome to the Rules & Regulations!
+          </p>
         </div>
       </div>
     </div>
@@ -85,16 +93,18 @@
 
 <script>
 import moment from "moment";
+import { userStore } from "@/store";
 
 export default {
   data: () => ({
     commentAreaVisible: true,
     commentList: [],
     comment: "",
+    userStore: userStore(),
   }),
   methods: {
     publish() {
-      if (!this.comment) return
+      if (!this.comment) return;
       this.commentList.push({
         content: this.comment,
         time: moment(new Date()).format("yyyy-MM-DD HH:mm:ss"),
@@ -118,7 +128,7 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 0 100px;
-    background-color: #79AEB9;
+    background-color: #79aeb9;
     color: #fff;
     height: 300px;
     h1 {

@@ -25,7 +25,6 @@ export default class Render {
     this.initCamera();
     this.initLight();
     this.initRenderer();
-    this.initEvent();
     this.initObject().then(() => {
       // this.initDevHelpers();
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -49,27 +48,6 @@ export default class Render {
     }
   }
 
-  initEvent() {
-    const container = document.getElementById("webgl-container");
-    container.addEventListener("click", this.eventHandler.bind(this));
-  }
-
-  eventHandler(e) {
-    const { clientX, clientY } = e;
-    let x = (clientX / SCENE_WIDTH) * 2 - 1;
-    let y = -(clientY / SCENE_HEIGHT) * 2 + 1;
-    this.raycaster.setFromCamera({ x, y }, this.camera);
-    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
-    if (intersects.length) {
-      const found = intersects.find(
-        (evt) => evt.object.name === "earthFloatText"
-      );
-      if (found) {
-        this.clearScene()
-        window.location = "/#/home"
-      }
-    }
-  }
 
   initScene() {
     this.scene = new THREE.Scene();
@@ -185,13 +163,6 @@ export default class Render {
     this.drawSatellite();
     // 尘埃
     this.drawDust();
-    // 地球文字
-    this.earthText = new THREE.Group();
-    this.objList.push(this.earthText)
-    this.initText("Welcome to the iSecurity e-Learning Platform!", 12, 260, 15);
-    this.initText("The University of Hong Kong", 12, 160, 5);
-    this.initText("Faculty of Education", 12, 100, -5);
-    this.initText("Zian Lu", 12, 40, -15);
     // 环绕
     this.earthFloatText = new THREE.Group();
     this.objList.push(this.earthFloatText)
@@ -201,36 +172,6 @@ export default class Render {
       360,
       15
     );
-    this.earthFloatText.rotateX(Math.PI / 4);
-  }
-
-  initText(text, size, all, lat) {
-    let len = text.length;
-    if (len % 2) {
-      len += 1;
-    }
-    const step = all / len;
-    let index = 0;
-    for (const char of text) {
-      if (char === "") {
-        index++;
-        continue;
-      }
-      var g = new TextGeometry(char, {
-        font: this.font,
-        size: size,
-        height: 2,
-      });
-      var m = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      var mesh = new THREE.Mesh(g, m);
-      this.objList.push(mesh)
-      mesh.position.copy(this.lnglat2Vector3([-all / 2 + index * step, lat]));
-      mesh.lookAt(this.center);
-      mesh.rotateY(Math.PI);
-      this.earthText.add(mesh);
-      index++;
-    }
-    this.earth.add(this.earthText);
   }
 
   floatText(text, size, all, lat) {

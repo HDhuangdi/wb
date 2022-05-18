@@ -3,7 +3,7 @@
     <Nav v-model="activeIndex"></Nav>
     <h1 class="title">SUMMARY</h1>
     <div class="table">
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="userStore.userList" style="width: 100%">
         <el-table-column prop="username" label="User" width="180">
         </el-table-column>
         <el-table-column prop="lesson1" label="Lesson1" width="180">
@@ -59,7 +59,7 @@ export default {
     }
   },
   data: () => ({
-    activeIndex: 2,
+    activeIndex: 7,
     userStore: userStore(),
     colorSet: [
       ["rgba(0, 103, 141, 1)", "rgba(13, 37, 71, 0)"],
@@ -95,7 +95,14 @@ export default {
         min: "dataMin",
         max: "dataMax",
       },
-      series: this.tableData.map((item, index) => ({
+      legend: {
+        show: true,
+        right: 150,
+        textStyle: {
+          color: '#fff'
+        }
+      },
+      series: this.userStore.userList.map((item, index) => ({
         name: item.username,
         data: [item.lesson1, item.lesson2, item.lesson3],
         smooth: true,
@@ -122,17 +129,6 @@ export default {
           color: _color,
         })),
       };
-    },
-  },
-  computed: {
-    tableData() {
-      const curUserInfo = {
-        username: this.userStore.username,
-        lesson1: this.userStore.lesson1,
-        lesson2: this.userStore.lesson2,
-        lesson3: this.userStore.lesson3,
-      };
-      return [curUserInfo, ...this.userStore.otherUsers];
     },
   },
 };

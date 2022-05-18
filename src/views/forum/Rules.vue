@@ -4,8 +4,8 @@
       <div class="detail-left">
         <div class="header">
           <div class="header-left">
-            <div class="avatar">L</div>
-            <p>Liming LM</p>
+            <div class="avatar">{{ userStore.username[0].toUpperCase() }}</div>
+            <p>{{ userStore.username }}</p>
           </div>
           <div class="header-right">Jun 02,2021 · Edited: Jun 02,2021</div>
         </div>
@@ -90,12 +90,14 @@
 
 <script>
 import moment from "moment";
+import { userStore } from "@/store";
 
 export default {
   data: () => ({
     commentAreaVisible: true,
     commentList: [],
     comment: "",
+    userStore: userStore()
   }),
   methods: {
     publish() {

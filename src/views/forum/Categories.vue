@@ -21,8 +21,8 @@
           <p>Here you can learn about the functions of the forum.</p>
         </div>
         <div class="mid">
-          <div><i class="el-icon-view"></i>7</div>
-          <div><i class="el-icon-chat-square"></i>7</div>
+          <div><i class="el-icon-view"></i>0</div>
+          <div><i class="el-icon-chat-square"></i>0</div>
         </div>
         <div class="right">
           <div>Follow</div>
@@ -34,8 +34,8 @@
           <p>Here you can learn about the rules and regulations of the forum</p>
         </div>
         <div class="mid">
-          <div><i class="el-icon-view"></i>7</div>
-          <div><i class="el-icon-chat-square"></i>7</div>
+          <div><i class="el-icon-view"></i>0</div>
+          <div><i class="el-icon-chat-square"></i>0</div>
         </div>
         <div class="right">
           <div>Follow</div>
@@ -47,8 +47,8 @@
           <p>Here you can introduce yourselves to others fellow learners.</p>
         </div>
         <div class="mid">
-          <div><i class="el-icon-view"></i>7</div>
-          <div><i class="el-icon-chat-square"></i>7</div>
+          <div><i class="el-icon-view"></i>0</div>
+          <div><i class="el-icon-chat-square"></i>0</div>
         </div>
         <div class="right">
           <div>Follow</div>
@@ -63,8 +63,8 @@
           </p>
         </div>
         <div class="mid">
-          <div><i class="el-icon-view"></i>7</div>
-          <div><i class="el-icon-chat-square"></i>7</div>
+          <div><i class="el-icon-view"></i>0</div>
+          <div><i class="el-icon-chat-square"></i>0</div>
         </div>
         <div class="right">
           <div>Follow</div>

@@ -18,7 +18,7 @@ export default {
     ForumNav
   },
   data: () => ({
-    activeIndex: 4
+    activeIndex: 5
   })
 };
 </script>
@@ -26,7 +26,7 @@ export default {
 <style lang="less" scoped>
 .forum {
   & /deep/ .nav {
-    background-color: rgb(145, 145, 145);
+    background-color: rgba(13, 37, 71, 1);
   }
 }
 </style>

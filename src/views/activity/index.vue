@@ -23,6 +23,7 @@
         <transition name="fade">
           <div class="dialog" v-if="index === activeGameContentIndex">
             <i @click="next" class="el-icon-caret-bottom"></i>
+            <i @click="prev" class="el-icon-caret-top"></i>
             <img
               class="character"
               :class="item.characterClass"
@@ -78,7 +79,7 @@ export default {
     },
   },
   data: () => ({
-    activeIndex: 3,
+    activeIndex: 2,
     userStore: userStore(),
     gameList: [
       {
@@ -192,7 +193,12 @@ export default {
       }
       const count = this.calcGameScore(obj);
       this.form[`game${this.activeGame}Score`] = count;
-      this.userStore[`lesson${this.activeGame}`] = count;
+      const user = this.userStore.userList.find(u => u.username === this.userStore.username)
+      user[`lesson${this.activeGame}`] = count;
+    },
+    prev() {
+      if (this.activeGameContentIndex === 0) return
+      this.activeGameContentIndex--;
     },
     getContent(html) {
       const res = html.match(/{{(\w+)}}/);
@@ -319,9 +325,19 @@ export default {
       z-index: 10;
     }
     .el-icon-caret-bottom {
+      font-size: 30px;
       color: #fff;
       position: absolute;
-      bottom: 5px;
+      bottom: 15px;
+      right: 20px;
+      z-index: 10;
+      cursor: pointer;
+    }
+    .el-icon-caret-top {
+      font-size: 30px;
+      color: #fff;
+      position: absolute;
+      bottom: 180px;
       right: 20px;
       z-index: 10;
       cursor: pointer;

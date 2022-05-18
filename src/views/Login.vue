@@ -28,17 +28,23 @@ export default {
     Nav,
   },
   data: () => ({
-    activeIndex: 6,
+    activeIndex: 8,
     userStore: userStore(),
     username: "",
     password: "",
   }),
   methods: {
     onSubmit() {
-      this.userStore.username = this.username
-      this.userStore.password = this.password
+      const user = {
+        username: this.username,
+        password: this.password,
+        lesson1: 0,
+        lesson2: 0,
+        lesson3: 0,
+      }
       this.userStore.isLogin = true
-      localStorage.iSecurityUsername = this.username
+      this.userStore.username = this.username
+      this.userStore.userList.push(user)
       this.$message({
         message: "Login successfully",
         type: "success",
